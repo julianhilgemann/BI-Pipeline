@@ -1,0 +1,10 @@
+
+duckdb_local:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: '../data/vantage.duckdb'
+      extensions:
+        - httpfs
+        - parquet

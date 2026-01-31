@@ -1,0 +1,11 @@
+
+    
+    
+    truncate table "vantage"."main"."exchange_rates";
+    -- dbt seed --
+    
+          COPY "vantage"."main"."exchange_rates" FROM '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project/seeds/exchange_rates.csv' (FORMAT CSV, HEADER TRUE, DELIMITER ',')
+        
+
+;
+  

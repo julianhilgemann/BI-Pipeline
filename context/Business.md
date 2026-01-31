@@ -1,0 +1,9 @@
+CLIENT BRIEF: VANTAGE ALPIN
+Sector: Premium Outdoor D2C // Region: DACH (Germany, Austria, Switzerland)
+The Identity: Vantage Alpin is a technical mountaineering brand based in the Bavarian Alps. They don't sell fast fashion; they sell "Lifetime Gear" (Gore-Tex shells, crampons, pro-grade boots) to serious alpinists. The price point is high, with equipment costing up to €800.
+The Business Context ("Profitless Prosperity"): Vantage is scaling fast (10% YoY growth), but the CFO is flying blind. Top-line revenue looks great, but the Net Margin is bleeding out due to hidden operational friction.
+The 3 Strategic Pain Points (Why they hired you):
+1. The "Swiss Surcharge" Problem: Vantage has a massive customer base in Switzerland (CH). However, the cross-border logistics involve heavy weight surcharges and customs fees. They need to know: Is selling a €500 jacket to Zurich actually profitable after shipping?
+2. The "Cinderella" Effect (Returns): They have a 30% return rate on their "Footwear" category because technical boots are hard to fit online. This is destroying margins compared to their "Equipment" line (climbing ropes), which is rarely returned. They need to visualize this discrepancy.
+3. Marketing Attribution: Vantage spends ~15% of revenue on Google/Meta ads. Currently, they only see this as a monthly lump sum. They need you to allocate this spend down to the Order Level to see which specific baskets are earning a "Contribution Margin 2".
+Your Mission: Build the "Single Source of Truth." Move Vantage Alpin from a static Excel spreadsheet to an automated Modern Data Stack (DuckDB + dbt + Power BI) that exposes the true profitability of every order, region, and SKU

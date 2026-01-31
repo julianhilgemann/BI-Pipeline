@@ -1,0 +1,12 @@
+
+version: 2
+
+sources:
+  - name: vantage_source
+    schema: main
+    tables:
+      - name: raw_orders
+      - name: raw_line_items
+      - name: raw_products
+      - name: raw_marketing_daily
+      - name: raw_budget

@@ -1,0 +1,57 @@
+{
+    "name": "Vantage Alpin Technical",
+    "dataColors": [
+        "#343A40",
+        "#2B8A3E",
+        "#F03E3E",
+        "#ADB5BD",
+        "#495057",
+        "#868E96"
+    ],
+    "visualStyles": {
+        "*": {
+            "*": {
+                "title": [
+                    {
+                        "fontFace": "DIN Pro",
+                        "fontSize": 12,
+                        "color": "#212529"
+                    }
+                ],
+                "background": [
+                    {
+                        "transparency": 0
+                    }
+                ],
+                "border": [
+                    {
+                        "show": false
+                    }
+                ],
+                "outspace": [
+                    {
+                        "color": "#F8F9FA"
+                    }
+                ]
+            }
+        },
+        "card": {
+            "*": {
+                "labels": [
+                    {
+                        "fontFace": "DIN Pro",
+                        "fontSize": 30,
+                        "color": "#212529"
+                    }
+                ],
+                "categoryLabels": [
+                    {
+                        "fontFace": "Inter",
+                        "fontSize": 10,
+                        "color": "#868E96"
+                    }
+                ]
+            }
+        }
+    }
+}
