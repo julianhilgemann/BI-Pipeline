@@ -12,20 +12,20 @@ The pipeline simulates a realistic e-commerce environment (Data Science Layer), 
 
 ```mermaid
 flowchart LR
-    subgraph Gen [Data Generation (Python)]
+    subgraph Gen ["Data Generation (Python)"]
     Py[NHPP Simulation]
     CSV[(Raw CSVs)]
     end
-    subgraph WH [Data Warehouse (DuckDB)]
+    subgraph WH ["Data Warehouse (DuckDB)"]
     Duck[DuckDB]
     end
-    subgraph Trans [Transformation (dbt)]
+    subgraph Trans ["Transformation (dbt)"]
     dbt[dbt Core]
     Stg[Staging]
     Int[Intermediate]
     Mart[Marts]
     end
-    subgraph BI [Analytics (Power BI)]
+    subgraph BI ["Analytics (Power BI)"]
     PBI[Dashboard]
     end
     Py --> CSV
