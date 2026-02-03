@@ -1,0 +1,53 @@
+import duckdb
+import os
+
+def export_tables():
+    # Define paths
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    db_path = os.path.join(base_dir, 'data', 'vantage.duckdb')
+    export_dir = os.path.join(base_dir, 'data', 'export')
+
+    # Create export directory if it doesn't exist
+    if not os.path.exists(export_dir):
+        os.makedirs(export_dir)
+        print(f"Created export directory: {export_dir}")
+
+    # Connect to database
+    print(f"Connecting to database at: {db_path}")
+    con = duckdb.connect(db_path)
+
+    # Tables to export
+    tables = [
+        'dim_calendar',
+        'dim_products',
+        'fct_budget_daily',
+        'fct_transactions'
+    ]
+
+    try:
+        for table in tables:
+            output_file = os.path.join(export_dir, f"{table}.parquet")
+            print(f"Exporting {table} to {output_file}...")
+            
+            # Check if table exists first (handling potential schema/naming differences)
+            # DBT usually creates tables in the main schema or a configured schema.
+            # We'll try to select from it directly.
+            try:
+                con.execute(f"COPY (SELECT * FROM {table}) TO '{output_file}' (FORMAT 'parquet')")
+                print(f"Successfully exported {table}")
+            except duckdb.CatalogException:
+                print(f"Table {table} not found. Checking available tables...")
+                # List tables to help debugging if one is missing
+                available_tables = con.execute("SHOW TABLES").fetchall()
+                print(f"Available tables: {[t[0] for t in available_tables]}")
+            except Exception as e:
+                 print(f"Error exporting {table}: {e}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        con.close()
+        print("Export process completed.")
+
+if __name__ == "__main__":
+    export_tables()
