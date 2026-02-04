@@ -1,5 +1,7 @@
 import duckdb
 import os
+import zipfile
+import glob
 
 def export_tables():
     # Define paths
@@ -52,8 +54,28 @@ def export_tables():
     except Exception as e:
         print(f"An error occurred: {e}")
     finally:
-        con.close()
-        print("Export process completed.")
+        # Close DB connection first
+        try:
+            con.close()
+        except:
+            pass
+        
+    # Compression happens after DB work is done
+    print("Export process completed. Compressing files...")
+    try:
+        zip_filename = os.path.join(export_dir, 'bi_export.zip')
+        with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            # Compress both Parquet and CSV files
+            for file_path in glob.glob(os.path.join(export_dir, '*.parquet')) + glob.glob(os.path.join(export_dir, '*.csv')):
+                arcname = os.path.basename(file_path)
+                print(f"Adding {arcname} to archive...")
+                zipf.write(file_path, arcname)
+                
+        print(f"Successfully created archive: {zip_filename}")
+    except Exception as e:
+        print(f"Error zipping files: {e}")
+        
+    print("Export script finished.")
 
 if __name__ == "__main__":
     export_tables()

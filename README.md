@@ -87,7 +87,8 @@ DuckDB is an embedded database. In many local Power BI environments, an ODBC dri
 To bypass this, we implemented a **Parquet Export Workflow**:
 1.  **Extract:** Review `src/export_bi_tables.py`.
 2.  **Transform:** `COPY (SELECT * FROM mart) TO 'file.parquet'`. (Script also produces `.csv`).
-3.  **Load:** Power BI reads the folder of Parquet or CSV files directly. 
+3.  **Load:** Power BI reads the folder of Parquet or CSV files directly.
+    -   *Bonus:* All files are also compressed into `bi_export.zip` for easy distribution. 
 
 > **Note:** In a production cloud environment (e.g., Snowflake/BigQuery), Power BI would connect directly via DirectQuery or Import Mode.
 
