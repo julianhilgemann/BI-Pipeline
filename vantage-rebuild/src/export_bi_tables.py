@@ -25,6 +25,30 @@ def export_tables():
         'fct_budget_daily',
         'fct_transactions'
     ]
+    
+    # 2. Export KPI Validation Query
+    kpi_sql_path = os.path.join(base_dir, 'analysis', 'kpi_validation.sql')
+    if os.path.exists(kpi_sql_path):
+        print(f"Found KPI Validation SQL at: {kpi_sql_path}")
+        try: 
+            with open(kpi_sql_path, 'r') as f:
+                kpi_query = f.read()
+            
+            output_file = os.path.join(export_dir, "kpi_validation.parquet")
+            print(f"Exporting KPI Validation to {output_file}...")
+            # Use subquery for COPY
+            con.execute(f"COPY ({kpi_query}) TO '{output_file}' (FORMAT 'parquet')")
+            print("Successfully exported KPI Validation (Parquet)")
+
+            output_file_csv = os.path.join(export_dir, "kpi_validation.csv")
+            print(f"Exporting KPI Validation to {output_file_csv}...")
+            con.execute(f"COPY ({kpi_query}) TO '{output_file_csv}' (HEADER, DELIMITER ',')")
+            print("Successfully exported KPI Validation (CSV)")
+            
+        except Exception as e:
+            print(f"Error exporting KPI Validation: {e}")
+    else:
+        print(f"Warning: KPI Validation SQL not found at {kpi_sql_path}")
 
     try:
         for table in tables:
