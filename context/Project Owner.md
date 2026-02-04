@@ -1,4 +1,7 @@
-This document represents the **Project Management Plan**. As the Product Owner (PO), my focus is not on *how* the code is written, but on **Value Delivery, Scope Management, and Stakeholder Satisfaction**.
+# Project Management Plan
+
+This document represents the strategy and oversight for the project's execution. As the Product Owner (PO), my focus is not on *how* the code is written, but on **Value Delivery, Scope Management, and Stakeholder Satisfaction**.
+
 I bridge the gap between the "Technical Team" (Data Scientist/Engineer) and the "Business Stakeholders" (CFO/Sales Directors who use the dashboard).
 ---
 # Project Charter: Vantage BI Re-Engineering

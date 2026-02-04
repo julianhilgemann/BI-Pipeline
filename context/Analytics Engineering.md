@@ -1,4 +1,7 @@
-This is the **Analytics Engineering Implementation Spec**. It translates the business requirements and data generation outputs into a concrete execution plan using `dbt-duckdb`.
+# Analytics Engineering Implementation Spec
+
+This document translates the business requirements and data generation outputs into a concrete execution plan using `dbt-duckdb`.
+
 **Role:** Analytics Engineer
 **Tools:** Python (Loader), DuckDB (Storage/Compute), dbt Core (Transformation), SQL (Logic).
 ---

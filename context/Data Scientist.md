@@ -1,4 +1,7 @@
-This document outlines the **Data Generation Model Specification** from a Data Science perspective. It defines the statistical distributions, time-series components, and relational constraints required to simulate the vantage e-commerce dataset realistically.
+# Data Generation Model Specification
+
+This document outlines the statistical distributions, time-series components, and relational constraints required to simulate the vantage e-commerce dataset realistically.
+
 **Objective:** Generate a dataset of ~35,000 orders over a 1-year period that exhibits realistic seasonality, product affinity, and variance, suitable for `dbt` ingestion.
 ---
 ## 1. The Modeling Philosophy: "Controlled Stochasticity"

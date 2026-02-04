@@ -1,4 +1,4 @@
-This is the **Corporate Design & Data Visualization Guide** for Vantage Alpin.
+# Corporate Design & Data Visualization Guide
 
 **Role:** Creative Director / UI Lead
 **Audience:** UI/UX Designer & Power BI Developer

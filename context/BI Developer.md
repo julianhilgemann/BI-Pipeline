@@ -1,4 +1,5 @@
-This is the **BI Developer / Data Analyst Project Plan**.
+# BI Developer / Data Analyst Project Plan
+
 **Role:** BI Developer
 **Focus:** Accuracy, User Experience (UX), DAX Logic, and Performance.
 **Motto:** "If the numbers in the dashboard don't match the database, it's my fault. If the database is wrong, it's the Engineer's fault."

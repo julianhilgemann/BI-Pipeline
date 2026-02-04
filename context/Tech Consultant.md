@@ -1,4 +1,5 @@
-This is the **Documentation & Narrative Strategy** from the perspective of a **Technical Consultant**.
+# Documentation & Narrative Strategy
+
 **Role:** Solution Architect / Tech Consultant
 **Goal:** Translate code into *capability*.
 **Audience:** CTOs, Lead Engineers, and Hiring Managers. They scan for 30 seconds; if hooked, they read for 5 minutes.

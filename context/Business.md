@@ -1,5 +1,6 @@
-CLIENT BRIEF: VANTAGE ALPIN
-Sector: Premium Outdoor D2C // Region: DACH (Germany, Austria, Switzerland)
+# Client Brief: Vantage Alpin
+
+**Sector:** Premium Outdoor D2C // **Region:** DACH (Germany, Austria, Switzerland)
 The Identity: Vantage Alpin is a technical mountaineering brand based in the Bavarian Alps. They don't sell fast fashion; they sell "Lifetime Gear" (Gore-Tex shells, crampons, pro-grade boots) to serious alpinists. The price point is high, with equipment costing up to €800.
 The Business Context ("Profitless Prosperity"): Vantage is scaling fast (10% YoY growth), but the CFO is flying blind. Top-line revenue looks great, but the Net Margin is bleeding out due to hidden operational friction.
 The 3 Strategic Pain Points (Why they hired you):
