@@ -86,8 +86,8 @@ We follow a strict **Kimball** dimensional modeling methodology.
 DuckDB is an embedded database. In many local Power BI environments, an ODBC driver is not available or difficult to configure. 
 To bypass this, we implemented a **Parquet Export Workflow**:
 1.  **Extract:** Review `src/export_bi_tables.py`.
-2.  **Transform:** `COPY (SELECT * FROM mart) TO 'file.parquet'`.
-3.  **Load:** Power BI reads the folder of Parquet files directly. 
+2.  **Transform:** `COPY (SELECT * FROM mart) TO 'file.parquet'`. (Script also produces `.csv`).
+3.  **Load:** Power BI reads the folder of Parquet or CSV files directly. 
 
 > **Note:** In a production cloud environment (e.g., Snowflake/BigQuery), Power BI would connect directly via DirectQuery or Import Mode.
 

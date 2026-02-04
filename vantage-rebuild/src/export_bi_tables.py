@@ -34,7 +34,13 @@ def export_tables():
             # We'll try to select from it directly.
             try:
                 con.execute(f"COPY (SELECT * FROM {table}) TO '{output_file}' (FORMAT 'parquet')")
-                print(f"Successfully exported {table}")
+                print(f"Successfully exported {table} (Parquet)")
+
+                # Export CSV
+                output_file_csv = os.path.join(export_dir, f"{table}.csv")
+                print(f"Exporting {table} to {output_file_csv}...")
+                con.execute(f"COPY (SELECT * FROM {table}) TO '{output_file_csv}' (HEADER, DELIMITER ',')")
+                print(f"Successfully exported {table} (CSV)")
             except duckdb.CatalogException:
                 print(f"Table {table} not found. Checking available tables...")
                 # List tables to help debugging if one is missing
