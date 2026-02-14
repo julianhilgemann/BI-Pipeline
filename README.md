@@ -81,8 +81,22 @@ We follow a strict **Kimball** dimensional modeling methodology.
 *   **`dim_products`**: Type 1 SCD (Slowly Changing Dimension) for product attributes.
 *   **`fct_budget_daily`**: Monthly budget targets fanned out to daily grain for "Pacing" charts in BI.
 
-## 5. Business Intelligence & Consumption
-### Data Export Pattern
+## 5. Business Intelligence Architecture (Power BI)
+This project treats the BI layer as a software product, not just a collection of charts.
+
+### A. Model Architecture & Governance
+We prioritize maintainability over complexity. The data model follows a strict **Star Schema** with a clear separation of facts and dimensions. Measures are organized into folder structures with subfolders for easy navigation. We enforce a "No Calculated Columns" policy to ensure optimal compression and performance. A dedicated `DAX_Metadata` table feeds a **dynamically generated KPI Glossary**, ensuring that documentation never drifts from the code. This self-documenting infrastructure means any new analyst can understand the semantic layer in under 30 minutes.
+
+### B. DAX Engineering
+Efficiency and scalability drive our DAX strategy. We utilize **Calculation Groups** to reduce measure bloat by ~60%, enabling users to switch between Actuals, Budget, Delta, and YoY views with a single interaction pattern. **Field Parameters** allow users to explore any KPI × Dimension combination dynamically, preventing the need for $N^2$ static visuals. We employ classic BI patterns for Time Intelligence (YTD/QTD/MoM) and complex financial logic (Pacing, Waterfall charts), wrapping them in clean, well-formatted DAX measures.
+
+### C. UX & Visual Design
+Every visual decision serves a specific analytical purpose. We adhere to **IBCS-adjacent principles**, restricting the color palette to functional encodings (Profit = Green, Loss = Red, Volume = Grey) rather than decoration. A strict typographical hierarchy and grid system (managed via layers) ensure accessible, professional information density. SVG icons are used for lightweight, crisp visuals, and conditional formatting directs user attention immediately to outliers.
+
+### D. Interactivity & Navigation
+We interpret "Self-Service BI" as **progressive disclosure**. The top-level dashboard answers key business questions at a glance. Users can then **Drill Through** to detailed pages for granular analysis or hover over KPI cards to reveal trend tooltips. Field parameter switchers put the control in the user's hands, making the report a flexible tool rather than a static snapshot.
+
+### E. Data Connection (Legacy/Local)
 DuckDB is an embedded database. In many local Power BI environments, an ODBC driver is not available or difficult to configure. 
 To bypass this, we implemented a **Parquet Export Workflow**:
 1.  **Extract:** Review `src/export_bi_tables.py`.
