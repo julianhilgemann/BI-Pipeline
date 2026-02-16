@@ -3,7 +3,7 @@ with products as (
 )
 
 select
-    sku_id,
+    product_id,
     product_name,
     category,
     -- Simple tiers based on price/category
@@ -12,5 +12,5 @@ select
         when category = 'Schuhe' then 'Footwear'
         else 'Apparel'
     end as business_unit,
-    list_price_eur
+    base_retail_price
 from products

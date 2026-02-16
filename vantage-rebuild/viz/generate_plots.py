@@ -20,7 +20,8 @@ def setup_style():
 
 def plot_seasonality(output_dir):
     print("Generating Seasonality Plot...")
-    engine = SeasonalityEngine(start_date=date(2024, 1, 1), days=365)
+    # 2 years: 2024 (Leap) + 2025 = 731 days
+    engine = SeasonalityEngine(start_date=date(2024, 1, 1), days=731)
     df = engine.get_daily_multipliers()
     
     plt.figure(figsize=(12, 6))

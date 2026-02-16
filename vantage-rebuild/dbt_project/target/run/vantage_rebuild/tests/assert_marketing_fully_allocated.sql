@@ -1,9 +1,12 @@
-select
+
+    select
       count(*) as failures,
       count(*) != 0 as should_warn,
       count(*) != 0 as should_error
     from (
-      -- assert_marketing_fully_allocated.sql
+      
+    
+  -- assert_marketing_fully_allocated.sql
 with source as (
     select sum(marketing_spend_local) as total_spend
     from "vantage"."main"."stg_marketing"
@@ -25,5 +28,7 @@ select *
 from source, fact
 where abs(source.total_spend - fact.total_allocated) > 5.0 
 -- Allow 5 EUR tolerance for rounding errors across 365 days
+  
+  
       
     ) dbt_internal_test

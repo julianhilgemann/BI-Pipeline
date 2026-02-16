@@ -48,6 +48,16 @@ class ProductGenerator:
             prices.append(round(p, 2))
             return_probs.append(r)
             
+        # Assign Price Tiers
+        tiers = []
+        for p in prices:
+            if p < 80:
+                tiers.append('budget')
+            elif p <= 180:
+                tiers.append('mid')
+            else:
+                tiers.append('premium')
+        
         # Sales Rank (Pareto 80/20)
         # Using a Zipfian/Power law for weights
         # Lower rank = higher sales. We need 'weights' for sampling.
@@ -58,6 +68,7 @@ class ProductGenerator:
             'sku_id': skus,
             'category': cats,
             'avg_price_eur': prices,
+            'price_tier': tiers,
             'return_prob': return_probs,
             'popularity_score': popularity
         })
@@ -69,6 +80,72 @@ class ProductGenerator:
         df['product_name'] = [f"{c} Model {i}" for i, c in enumerate(df['category'])]
         
         return df
+
+    def reclassify_product(self, product_row, date_obj):
+        """
+        Reclassifies a single product:
+        - Updates price
+        - Updates tier
+        - Sets volume elasticity flag (to be handled in OrderFactory)
+        Returns: (updated_row, snapshot_dict)
+        """
+        current_tier = product_row['price_tier']
+        current_price = product_row['avg_price_eur']
+        
+        # Determine direction
+        # 70% UP, 30% DOWN
+        # Constraint: Budget -> Mid -> Premium (One step only)
+        
+        direction = None # 'up' or 'down'
+        
+        if current_tier == 'budget':
+            # Can only go UP
+            direction = 'up'
+        elif current_tier == 'premium':
+            # Can only go DOWN
+            direction = 'down'
+        else: # 'mid'
+            if np.random.random() < 0.70:
+                direction = 'up'
+            else:
+                direction = 'down'
+        
+        new_tier = current_tier
+        new_price = current_price
+        
+        if direction == 'up':
+            if current_tier == 'budget': new_tier = 'mid'
+            elif current_tier == 'mid': new_tier = 'premium'
+            
+            # Price increase 20-30%
+            increase = np.random.uniform(1.20, 1.30)
+            new_price = current_price * increase
+            
+        elif direction == 'down':
+            if current_tier == 'premium': new_tier = 'mid'
+            elif current_tier == 'mid': new_tier = 'budget'
+            
+            # Price decrease 15-20%
+            decrease = np.random.uniform(0.80, 0.85)
+            new_price = current_price * decrease
+            
+        # Update Row
+        updated_row = product_row.copy()
+        updated_row['price_tier'] = new_tier
+        updated_row['avg_price_eur'] = round(new_price, 2)
+        
+        # Create Screenshot Record for Tracking
+        snapshot = {
+            'product_id': product_row['sku_id'],
+            'old_tier': current_tier,
+            'new_tier': new_tier,
+            'old_price': current_price,
+            'new_price': round(new_price, 2),
+            'change_date': date_obj,
+            'direction': direction
+        }
+        
+        return updated_row, snapshot
 
 class CustomerGenerator:
     def __init__(self, num_customers=5000):

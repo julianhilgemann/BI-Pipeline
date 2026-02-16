@@ -7,10 +7,12 @@
 
 renamed as (
     select
-        sku_id,
-        category,
+        sku_id as product_id,
         product_name,
-        avg_price_eur as list_price_eur,
+        category,
+        NULL as subcategory,
+        price_tier,
+        avg_price_eur as base_retail_price,
         unit_cost_eur,
         popularity_score
     from source

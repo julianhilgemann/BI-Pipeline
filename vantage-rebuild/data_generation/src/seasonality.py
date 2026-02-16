@@ -22,9 +22,9 @@ class SeasonalityEngine:
         3. Monthly Payday Effect
         4. Special Events (Black Friday, etc.)
         """
-        # 1. Linear Trend (10% YoY growth)
-        # y = mx + c. start at 1.0, end at 1.1
-        slope = 0.10 / self.days
+        # 1. Linear Trend (20% growth over the full period)
+        # y = mx + c. start at 1.0, end at 1.2
+        slope = 0.20 / self.days
         self.df['trend'] = 1.0 + (self.df.index * slope)
 
         # 2. Weekly Seasonality
