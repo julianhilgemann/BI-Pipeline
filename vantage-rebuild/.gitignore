@@ -20,8 +20,6 @@ dbt_project/.user.yml
 data/*.duckdb
 data/*.db
 output/
-*.csv
-*.parquet
 
 # IDE
 .vscode/
