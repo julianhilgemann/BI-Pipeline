@@ -176,6 +176,8 @@ class OrderFactory:
         Generates N orders for a specific day.
         Returns: (orders_list, line_items_list)
         """
+        from datetime import timedelta
+        
         # Sample actual N from Poisson
         n_orders = np.random.poisson(expected_vol)
         if n_orders == 0:
@@ -193,6 +195,11 @@ class OrderFactory:
         
         for cid in cust_ids:
             oid = uuid.uuid4().hex[:12]
+            
+            # Shipping Logic
+            # ship_date = order_date + random.randint(1, 5)
+            ship_delay = np.random.randint(1, 6) # 1 to 5 inclusive
+            ship_date = date_obj + timedelta(days=ship_delay)
             
             # Basket Size (Geometric-like)
             # P(1)=0.5, P(2)=0.3...
@@ -225,6 +232,12 @@ class OrderFactory:
                 # Return Logic
                 did_return = np.random.random() < prod['return_prob']
                 
+                return_date = None
+                if did_return:
+                    # return_date = ship_date + random.randint(7, 30)
+                    return_delay = np.random.randint(7, 31) # 7 to 30 inclusive
+                    return_date = ship_date + timedelta(days=return_delay)
+                
                 line_items.append({
                     'line_id': uuid.uuid4().hex[:12],
                     'order_id': oid,
@@ -232,7 +245,8 @@ class OrderFactory:
                     'qty': qty,
                     'unit_price_paid': round(price_paid, 2),
                     'unit_cost': prod['unit_cost_eur'],
-                    'is_returned': did_return
+                    'is_returned': did_return,
+                    'return_date': return_date
                 })
                 
             orders.append({
@@ -240,6 +254,7 @@ class OrderFactory:
                 'customer_id': cid,
                 'shop_id': shop_id,
                 'order_date': date_obj, # We keep it simple (Date only, no time for now)
+                'ship_date': ship_date,
                 'currency_code': currency
             })
             

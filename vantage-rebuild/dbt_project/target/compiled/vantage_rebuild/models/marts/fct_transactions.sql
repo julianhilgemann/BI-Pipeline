@@ -36,12 +36,14 @@ joined as (
         o.shop_id,
         o.customer_id,
         o.order_date,
+        o.ship_date,
         o.currency_code,
         l.sku_id,
         l.quantity,
         l.unit_price_local,
         l.unit_cost_local,
         l.is_returned,
+        l.return_date,
         
         -- Exchange Rate Lookup
         -- If currency is EUR, rate is 1.0. If not, join to rates.
@@ -128,7 +130,9 @@ final_allocation as (
         ord.line_item_id,
         ord.order_id,
         ord.order_date,
+        ord.ship_date,
         ord.shop_id,
+        ord.return_date,
         ord.customer_id,
         ord.sku_id,
         ord.quantity,
@@ -205,6 +209,8 @@ final as (
         
         -- Dimensions
         cast(oa.order_date as date) as date_key,
+        cast(oa.ship_date as date) as ship_date,
+        cast(oa.return_date as date) as return_date,
         oa.shop_id as shop_key,
         oa.customer_id as customer_key,
         oa.sku_id as product_key,

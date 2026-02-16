@@ -15,6 +15,8 @@ final as (
         
         -- Dimensions
         cast(oa.order_date as date) as date_key,
+        cast(oa.ship_date as date) as ship_date,
+        cast(oa.return_date as date) as return_date,
         oa.shop_id as shop_key,
         oa.customer_id as customer_key,
         oa.sku_id as product_key,

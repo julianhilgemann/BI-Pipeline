@@ -1,6 +1,8 @@
 SELECT
     o.order_id,
     o.order_date,
+    o.ship_date,
+    li.return_date,
     o.customer_id,        -- if exists
     li.sku_id as product_id,
     li.quantity as quantity,

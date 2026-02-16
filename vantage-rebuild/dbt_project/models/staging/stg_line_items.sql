@@ -11,7 +11,8 @@ renamed as (
         qty as quantity,
         unit_price_paid as unit_price_local,
         unit_cost as unit_cost_local,
-        is_returned
+        is_returned,
+        cast(return_date as date) as return_date
     from source
 )
 
