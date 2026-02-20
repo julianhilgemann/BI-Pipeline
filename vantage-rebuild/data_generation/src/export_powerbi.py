@@ -2,8 +2,8 @@
 import duckdb
 import os
 
-DB_PATH = '../../data/vantage.duckdb'
-EXPORT_DIR = '../../data/export'
+DB_PATH = 'data/vantage.duckdb'
+EXPORT_DIR = 'data/export'
 
 def export_to_parquet():
     print(f"Connecting to {DB_PATH}...")

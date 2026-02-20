@@ -19,13 +19,13 @@
 -- BETTER: Use recursive CTE to generate days.
 
 dates as (
-    -- Recursively generate days for 2024
+    -- Recursively generate days for 2024 and 2025
     with recursive date_series as (
         select cast('2024-01-01' as date) as date_day
         union all
         select date_day + interval 1 day
         from date_series
-        where date_day < '2024-12-31'
+        where date_day < '2025-12-31'
     )
     select * from date_series
 ),

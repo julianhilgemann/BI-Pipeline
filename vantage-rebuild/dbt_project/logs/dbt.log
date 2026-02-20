@@ -14289,3 +14289,252 @@ where abs(source.total_spend - fact.total_allocated) > 5.0
 [0m23:07:59.685857 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a4ed970>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10d183650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10d1839b0>]}
 [0m23:07:59.686030 [debug] [MainThread]: Flushing usage events
 [0m23:08:00.302436 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m18:29:32.426866 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10682e5d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11864e8d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11864ef10>]}
+
+
+============================== 18:29:32.429755 | 575c1329-7c65-499c-8b13-c0d9305c48a7 ==============================
+[0m18:29:32.429755 [info ] [MainThread]: Running with dbt=1.8.0
+[0m18:29:32.430101 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'profiles_dir': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project', 'log_path': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project/logs', 'fail_fast': 'False', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt run --select fct_budget_daily', 'send_anonymous_usage_stats': 'True'}
+[0m18:29:32.700485 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x118670490>]}
+[0m18:29:32.724435 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105e97990>]}
+[0m18:29:32.725959 [info ] [MainThread]: Registered adapter: duckdb=1.10.0
+[0m18:29:32.824907 [debug] [MainThread]: checksum: dbb12d416fdb55e3665e4828703bbedf40c5c90ed7ca6ff39bbbfb29b12b0a92, vars: {}, profile: , target: , version: 1.8.0
+[0m18:29:32.887346 [info ] [MainThread]: Unable to do partial parsing because of a version mismatch
+[0m18:29:32.887702 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106711010>]}
+[0m18:29:33.575806 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11ac6b310>]}
+[0m18:29:33.636861 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11acdf1d0>]}
+[0m18:29:33.637177 [info ] [MainThread]: Found 16 models, 1 snapshot, 1 test, 1 seed, 5 sources, 438 macros
+[0m18:29:33.637357 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11ac8b290>]}
+[0m18:29:33.638135 [info ] [MainThread]: 
+[0m18:29:33.638397 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m18:29:33.638802 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vantage'
+[0m18:29:33.671962 [debug] [ThreadPool]: Using duckdb connection "list_vantage"
+[0m18:29:33.672217 [debug] [ThreadPool]: On list_vantage: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "list_vantage"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"vantage"'
+    
+  
+  
+[0m18:29:33.672366 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m18:29:33.753981 [debug] [ThreadPool]: SQL status: OK in 0.082 seconds
+[0m18:29:33.755282 [debug] [ThreadPool]: On list_vantage: Close
+[0m18:29:33.755707 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_vantage, now create_vantage_main)
+[0m18:29:33.755960 [debug] [ThreadPool]: Creating schema "database: "vantage"
+schema: "main"
+"
+[0m18:29:33.759300 [debug] [ThreadPool]: Using duckdb connection "create_vantage_main"
+[0m18:29:33.759479 [debug] [ThreadPool]: On create_vantage_main: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "create_vantage_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='vantage'
+        and type='sqlite'
+    
+  
+[0m18:29:33.759622 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m18:29:33.760387 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m18:29:33.761068 [debug] [ThreadPool]: Using duckdb connection "create_vantage_main"
+[0m18:29:33.761228 [debug] [ThreadPool]: On create_vantage_main: BEGIN
+[0m18:29:33.761471 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:29:33.761604 [debug] [ThreadPool]: Using duckdb connection "create_vantage_main"
+[0m18:29:33.761734 [debug] [ThreadPool]: On create_vantage_main: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "create_vantage_main"} */
+
+    
+    
+        create schema if not exists "vantage"."main"
+    
+[0m18:29:33.762145 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:29:33.762510 [debug] [ThreadPool]: On create_vantage_main: COMMIT
+[0m18:29:33.762650 [debug] [ThreadPool]: Using duckdb connection "create_vantage_main"
+[0m18:29:33.762775 [debug] [ThreadPool]: On create_vantage_main: COMMIT
+[0m18:29:33.762981 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:29:33.763116 [debug] [ThreadPool]: On create_vantage_main: Close
+[0m18:29:33.765873 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_vantage_main, now list_vantage_snapshots)
+[0m18:29:33.768694 [debug] [ThreadPool]: Using duckdb connection "list_vantage_snapshots"
+[0m18:29:33.768898 [debug] [ThreadPool]: On list_vantage_snapshots: BEGIN
+[0m18:29:33.769041 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m18:29:33.769397 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:29:33.769534 [debug] [ThreadPool]: Using duckdb connection "list_vantage_snapshots"
+[0m18:29:33.769679 [debug] [ThreadPool]: On list_vantage_snapshots: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "list_vantage_snapshots"} */
+select
+      'vantage' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'snapshots'
+    and lower(table_catalog) = 'vantage'
+  
+[0m18:29:33.780216 [debug] [ThreadPool]: SQL status: OK in 0.010 seconds
+[0m18:29:33.780975 [debug] [ThreadPool]: On list_vantage_snapshots: ROLLBACK
+[0m18:29:33.781602 [debug] [ThreadPool]: Failed to rollback 'list_vantage_snapshots'
+[0m18:29:33.781748 [debug] [ThreadPool]: On list_vantage_snapshots: Close
+[0m18:29:33.782010 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_vantage_snapshots, now list_vantage_main)
+[0m18:29:33.783265 [debug] [ThreadPool]: Using duckdb connection "list_vantage_main"
+[0m18:29:33.783406 [debug] [ThreadPool]: On list_vantage_main: BEGIN
+[0m18:29:33.783527 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m18:29:33.783810 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m18:29:33.783941 [debug] [ThreadPool]: Using duckdb connection "list_vantage_main"
+[0m18:29:33.784112 [debug] [ThreadPool]: On list_vantage_main: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "list_vantage_main"} */
+select
+      'vantage' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'vantage'
+  
+[0m18:29:33.786168 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m18:29:33.786922 [debug] [ThreadPool]: On list_vantage_main: ROLLBACK
+[0m18:29:33.787240 [debug] [ThreadPool]: Failed to rollback 'list_vantage_main'
+[0m18:29:33.787372 [debug] [ThreadPool]: On list_vantage_main: Close
+[0m18:29:33.788596 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11b0e3710>]}
+[0m18:29:33.788833 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:29:33.788968 [debug] [MainThread]: On master: BEGIN
+[0m18:29:33.789095 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m18:29:33.789349 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:29:33.789482 [debug] [MainThread]: On master: COMMIT
+[0m18:29:33.789605 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:29:33.789727 [debug] [MainThread]: On master: COMMIT
+[0m18:29:33.789927 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:29:33.790056 [debug] [MainThread]: On master: Close
+[0m18:29:33.790240 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m18:29:33.790395 [info ] [MainThread]: 
+[0m18:29:33.791660 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.fct_budget_daily
+[0m18:29:33.791916 [info ] [Thread-1 (]: 1 of 1 START sql table model main.fct_budget_daily ............................. [RUN]
+[0m18:29:33.792133 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_vantage_main, now model.vantage_rebuild.fct_budget_daily)
+[0m18:29:33.792298 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.fct_budget_daily
+[0m18:29:33.796940 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.797581 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.fct_budget_daily
+[0m18:29:33.813475 [debug] [Thread-1 (]: Writing runtime sql for node "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.813952 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.814134 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: BEGIN
+[0m18:29:33.814358 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m18:29:33.815001 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:29:33.815235 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.815484 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+
+  
+    
+    
+
+    create  table
+      "vantage"."main"."fct_budget_daily__dbt_tmp"
+  
+    as (
+      with budget as (
+    select * from "vantage"."main"."stg_budget"
+),
+
+-- Generate Daily Budget (Linear Split)
+-- We need a date spine, but for MVP we can fan out by joining to a calendar or just dividing by 30
+-- Ideally use dbt_utils.date_spine.
+-- Hack for MVP: Just keep it Monthly? No, spec says Daily.
+-- We will assume 30 days per month for simplicity here to avoid massive join complexity without a calendar source.
+-- BETTER: Use recursive CTE to generate days.
+
+dates as (
+    -- Recursively generate days for 2024 and 2025
+    with recursive date_series as (
+        select cast('2024-01-01' as date) as date_day
+        union all
+        select date_day + interval 1 day
+        from date_series
+        where date_day < '2025-12-31'
+    )
+    select * from date_series
+),
+
+final as (
+    select
+        d.date_day,
+        b.shop_id,
+        b.currency_code,
+        -- Simple allocation: Monthly Budget / Days in Month
+        b.budget_revenue / extract(day from last_day(d.date_day)) as daily_budget_revenue
+    from budget b
+    inner join dates d 
+        on extract(month from d.date_day) = extract(month from b.budget_month)
+        and extract(year from d.date_day) = extract(year from b.budget_month)
+)
+
+select * from final
+    );
+  
+  
+[0m18:29:33.849484 [debug] [Thread-1 (]: SQL status: OK in 0.034 seconds
+[0m18:29:33.852423 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.852638 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+
+    SELECT index_name
+    FROM duckdb_indexes()
+    WHERE schema_name = 'main'
+      AND table_name = 'fct_budget_daily'
+  
+[0m18:29:33.853161 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:29:33.853756 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.853929 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+
+    SELECT COUNT(*) as remaining_indexes
+    FROM duckdb_indexes()
+    WHERE schema_name = 'main'
+      AND table_name = 'fct_budget_daily'
+  
+[0m18:29:33.854471 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:29:33.857659 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.857857 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+alter table "vantage"."main"."fct_budget_daily" rename to "fct_budget_daily__dbt_backup"
+[0m18:29:33.858472 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:29:33.859886 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.860066 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+alter table "vantage"."main"."fct_budget_daily__dbt_tmp" rename to "fct_budget_daily"
+[0m18:29:33.860391 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:29:33.867649 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: COMMIT
+[0m18:29:33.867856 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.868013 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: COMMIT
+[0m18:29:33.868996 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m18:29:33.871725 [debug] [Thread-1 (]: Using duckdb connection "model.vantage_rebuild.fct_budget_daily"
+[0m18:29:33.871917 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "node_id": "model.vantage_rebuild.fct_budget_daily"} */
+
+      drop table if exists "vantage"."main"."fct_budget_daily__dbt_backup" cascade
+    
+[0m18:29:33.872518 [debug] [Thread-1 (]: SQL status: OK in 0.000 seconds
+[0m18:29:33.873634 [debug] [Thread-1 (]: On model.vantage_rebuild.fct_budget_daily: Close
+[0m18:29:33.874290 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '575c1329-7c65-499c-8b13-c0d9305c48a7', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11acdd5d0>]}
+[0m18:29:33.874585 [info ] [Thread-1 (]: 1 of 1 OK created sql table model main.fct_budget_daily ........................ [[32mOK[0m in 0.08s]
+[0m18:29:33.874857 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.fct_budget_daily
+[0m18:29:33.875409 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:29:33.875552 [debug] [MainThread]: On master: BEGIN
+[0m18:29:33.875677 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m18:29:33.875936 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:29:33.876066 [debug] [MainThread]: On master: COMMIT
+[0m18:29:33.876187 [debug] [MainThread]: Using duckdb connection "master"
+[0m18:29:33.876307 [debug] [MainThread]: On master: COMMIT
+[0m18:29:33.876507 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m18:29:33.876635 [debug] [MainThread]: On master: Close
+[0m18:29:33.876794 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m18:29:33.876918 [debug] [MainThread]: Connection 'model.vantage_rebuild.fct_budget_daily' was properly closed.
+[0m18:29:33.877054 [info ] [MainThread]: 
+[0m18:29:33.877196 [info ] [MainThread]: Finished running 1 table model in 0 hours 0 minutes and 0.24 seconds (0.24s).
+[0m18:29:33.877457 [debug] [MainThread]: Command end result
+[0m18:29:33.893937 [info ] [MainThread]: 
+[0m18:29:33.894223 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m18:29:33.894379 [info ] [MainThread]: 
+[0m18:29:33.894528 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[0m18:29:33.926336 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 1.5339336, "process_user_time": 1.762634, "process_kernel_time": 0.308355, "process_mem_max_rss": "159154176", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m18:29:33.926711 [debug] [MainThread]: Command `dbt run` succeeded at 18:29:33.926665 after 1.53 seconds
+[0m18:29:33.926903 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11864f390>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11836d890>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x100dae310>]}
+[0m18:29:33.927080 [debug] [MainThread]: Flushing usage events

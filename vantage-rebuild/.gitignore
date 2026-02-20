@@ -17,8 +17,9 @@ dbt_project/dbt_packages/
 dbt_project/.user.yml
 
 # Data & Output
-data/*.duckdb
+data/*.duckdb*
 data/*.db
+data/export/
 output/
 
 # IDE
