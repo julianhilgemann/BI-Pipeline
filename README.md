@@ -14,6 +14,11 @@ The core of this project is the top-level analytical dashboard, designed to answ
 
 ![Vantage Dashboard](vantage-rebuild/viz/vantage_dashboard_main.png)
 
+### UI / UX / DX
+To ensure fast development and maintain clear structures, we utilize a 16px Power BI grid aligned with a classic 4px grid system. This approach provides a solid foundation for optimal spacing and layout, enhancing both the developer experience (DX) and the end-user experience (UX).
+
+![Vantage Wireframe](vantage-rebuild/viz/vantage_wireframe.png)
+
 ### Data Model
 We prioritize maintainability over complexity. The data model follows a strict **Star Schema** with a clear separation of facts and dimensions. We enforce a "No Calculated Columns" policy to ensure optimal compression and performance. For convenience and interactivity, we used a synthetic `dim_date` table that can be accessed [here](https://github.com/julianhilgemann/BI-Pipeline/blob/main/vantage-rebuild/dashboard_pbip/vantage_sales_bi.SemanticModel/definition/tables/synth_dim_date.tmdl).
 
