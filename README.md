@@ -19,10 +19,67 @@ We prioritize maintainability over complexity. The data model follows a strict *
 
 ![Data Model](vantage-rebuild/viz/vantage_data_model.png)
 
-### Measure Logic & Scalability
-Our DAX engineering strategy is driven by efficiency and scalability. Measures are organized logically into folders and subfolders for easy navigation. 
+### Semantic Model & Measure Architecture
 
-![Measures](vantage-rebuild/viz/vantage_dashboard_measures.png)
+Our DAX engineering strategy is driven by efficiency and scalability. All measures are centralized in a dedicated `_Measuretable` (no physical data) and organized logically into folders and subfolders that reflect a layered calculation dependency chain.
+
+#### Folder Taxonomy
+
+```text
+_Measuretable/
+├── 00 - Base Measures/          ← Atomic aggregations against fact tables
+│   ├── Revenue/                    Gross Revenue ACT (€), Gross Revenue BUD (€)
+│   ├── Cost/                       COGS Total ACT (€), Marketing Cost ACT (€), Logistics Cost ACT (€)
+│   ├── Orders/                     Orders Total ACT (#), Quantity Total ACT (#)
+│   ├── Returns/                    Returned ACT (€), Returned ACT (%)
+│   └── Profit/                     Profit ACT (€), Profit ACT MoM %
+│
+├── 01 - Time Intelligence/      ← Period-to-date and period-over-period
+│   └── Revenue/                    MTD, QTD, YTD, LM, MoM (€ and auto-formatted display variants)
+│
+├── 02 - Comparisons/            ← Variance and benchmarking
+│   ├── vs Budget/                  VAR vs BUD (€), VAR vs BUD (%), Delta ACT vs BUD (MTD/QTD/YTD)
+│   └── YoY/                        Δ% YoY for Revenue, COGS, Orders, AOV, Logistics, Marketing
+│                                    Δ YoY (bps) for CM1 Margin, CM2 Margin
+│
+├── 03 - Business Performance/   ← Derived P&L metrics
+│   ├── CM1/                        CM1 ACT (€), CM1 Margin ACT (%)
+│   ├── CM2/                        CM2 ACT (€), CM2 Margin ACT (%)
+│   └── Profit/                     Returned Profit Impact (€)
+│
+└── 99 - Technical Framework/    ← Non-analytical support measures
+    ├── Display Formatting/         Auto-formatted strings (K/M/B), YoY arrow displays,
+    │                                Applied Filters summary, Selected Period label,
+    │                                dynamic axis scaling (25% buffer)
+    └── Waterfall Helpers/          Sign-flipped cost measures for waterfall chart rendering
+```
+
+#### Naming Convention
+
+Every measure follows a consistent pattern to ensure readability in field lists, DAX expressions, and report tooltips:
+
+| Component | Convention | Example |
+|---|---|---|
+| **Metric** | Business term | `Gross Revenue`, `CM2 Margin`, `AOV` |
+| **Scenario** | `ACT` · `BUD` · `LM` | Actual · Budget · Last Month |
+| **Aggregation** | `MTD` · `QTD` · `YTD` | Period-to-date variants |
+| **Comparison** | `Δ%` · `Δ (bps)` · `VAR vs` | Relative change · Basis points · Variance |
+| **Unit** | `(€)` · `(%)` · `(#)` | Currency · Ratio · Count |
+| **Suffix** | `Display` · `AF` | String-formatted for cards · Auto-formatted (K/M/B) |
+
+Example: `Gross Revenue MTD Δ% YoY` → Gross Revenue, Month-to-Date, Year-over-Year percentage change.
+
+#### Design Principles
+
+**Layered dependencies** — Base measures (`00`) are the only layer that touches fact tables via `SUM` / `DISTINCTCOUNT`. Every subsequent folder builds exclusively on measures from prior layers, never re-aggregating raw columns. This makes the calculation chain auditable and simplifies debugging.
+
+**Numeric / display separation** — Analytical measures return typed numeric values for use in conditional formatting, axes, and further calculations. Parallel `Display` measures in `99` return formatted strings with directional arrows (`▲` / `▼`) for KPI cards. The two are never mixed.
+
+**Waterfall sign convention** — Cost measures in `99 - Waterfall Helpers` are pre-multiplied by `-1` so waterfall visuals render correctly without per-visual sign logic.
+
+**All time intelligence uses the synthetic date table** (`synth_dim_date[Date]`) — a custom-built date dimension with German/Austrian/Swiss holiday flags and ISO fiscal periods, ensuring all `DATEADD`, `SAMEPERIODLASTYEAR`, and `TOTALMTD/QTD/YTD` functions operate against a single governed calendar.
+
+#### Scalability & Metadata
 
 We utilize best practices for measure logic, prioritizing scalability in mind. **Calculation Groups** enable clutter-free and rapid iteration on the existing semantic model, significantly reducing measure bloat and allowing users to seamlessly switch between different dynamic views.
 
