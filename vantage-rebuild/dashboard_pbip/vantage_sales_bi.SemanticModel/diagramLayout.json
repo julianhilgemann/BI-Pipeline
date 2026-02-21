@@ -1,0 +1,173 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 569.44071068020651
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 343.38969344827518,
+            "y": 956.68698665517252
+          },
+          "nodeIndex": "dim_products",
+          "nodeLineageTag": "ec7972ed-f3fe-489b-9f2c-50d2bcfdd9e4",
+          "size": {
+            "height": 211.16534842741726,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 612.13859889655146,
+            "y": 650.21379486206922
+          },
+          "nodeIndex": "fct_transactions",
+          "nodeLineageTag": "ce61921c-f8b7-4571-8880-8f1929a8942c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 612.70608320689655,
+            "y": 248.27586206896552
+          },
+          "nodeIndex": "fct_budget_daily",
+          "nodeLineageTag": "7025d18c-fe4e-46fe-a98f-74ec6e0d442f",
+          "size": {
+            "height": 308.86707500000006,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 682.050985
+          },
+          "nodeIndex": "kpi_validation",
+          "nodeLineageTag": "6ab891ef-acb4-4921-a6d8-2e17e555e1c3",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 954.513713620689,
+            "y": 490.17361965517256
+          },
+          "nodeIndex": "synth_dim_date",
+          "nodeLineageTag": "6951656d-2b48-4257-a053-fe1e04c3ae7a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 342.75571100000013
+          },
+          "nodeIndex": "param_dim",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "param_kpis",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 176.228977
+          },
+          "nodeIndex": "param_date",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 846.80615800000021
+          },
+          "nodeIndex": "dax_meta",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 513.627421
+          },
+          "nodeIndex": "chart_waterfall_categories",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 1028.2189601418686
+          },
+          "nodeIndex": "CG - Time Intelligence",
+          "nodeLineageTag": "fc8fc3a9-fb2b-4faf-b619-9629ecfb4810",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1258.5387838275863,
+            "y": 0
+          },
+          "nodeIndex": "_Measuretable",
+          "nodeLineageTag": "be51d055-0138-42da-b8ad-c442a52b3a86",
+          "size": {
+            "height": 1000,
+            "width": 234
+          },
+          "zIndex": 11
+        }
+      ],
+      "name": "Alle Tabellen",
+      "zoomValue": 115.20075535456482,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Alle Tabellen",
+  "defaultDiagram": "Alle Tabellen"
+}

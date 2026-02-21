@@ -1,0 +1,944 @@
+/// Dedicated measures container table used to centrally store all model measures.
+/// Does not contain physical data.
+/// Measures are organized into display folders by business domain and calculation type.
+/// 
+table _Measuretable
+	lineageTag: be51d055-0138-42da-b8ad-c442a52b3a86
+
+	/// Average Order Value. The average revenue generated per order, calculated by dividing total gross revenue by the total number of orders.
+	measure 'AOV ACT (€)' = DIVIDE([Gross Revenue ACT (€)], [Orders Total ACT (#)], 0)
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\AOV
+		lineageTag: c79d24d3-dd93-4ffe-af54-86d35676a547
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Contribution Margin 1. The profit remaining after deducting the Cost of Goods Sold from Gross Revenue.
+	measure 'CM1 ACT (€)' = [Gross Revenue ACT (€)] - [COGS Total ACT (€)]
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 03 - Business Performance\CM1
+		lineageTag: 0a5a7ffe-fcc1-49a6-bace-5040555e274d
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// CM1 Margin Percentage. The percentage of Gross Revenue that remains as Contribution Margin 1.
+	measure 'CM1 Margin ACT (%)' = DIVIDE([CM1 ACT (€)], [Gross Revenue ACT (€)], 0)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 03 - Business Performance\CM1
+		lineageTag: 86c0bbee-06d3-4bc8-baf3-350566f6860d
+
+	/// Contribution Margin 2. The profit remaining after deducting Marketing and Logistics costs from CM1.
+	measure 'CM2 ACT (€)' = [CM1 ACT (€)] - [Marketing Cost ACT (€)] - [Logistics Cost ACT (€)]
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 03 - Business Performance\CM2
+		lineageTag: d42ccbe1-8438-46a5-954a-1ecf7dd652b7
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// CM2 Margin Percentage. The percentage of Gross Revenue that remains as Contribution Margin 2.
+	measure 'CM2 Margin ACT (%)' = DIVIDE([CM2 ACT (€)], [Gross Revenue ACT (€)], 0)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 03 - Business Performance\CM2
+		lineageTag: f5997009-1017-44f8-995d-faf7ce10482c
+
+	/// Cost of Goods Sold. The total direct costs attributable to the production of the goods sold, summed from transaction data.
+	measure 'COGS Total ACT (€)' = SUM(fct_transactions[cogs_eur])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Cost
+		lineageTag: 14978b27-ec3e-4bcf-aab5-73bb8955e533
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Actual Gross Revenue. The total revenue from sales before any deductions, summed from transaction data.
+	measure 'Gross Revenue ACT (€)' = SUM(fct_transactions[gross_revenue_eur])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Revenue
+		lineageTag: 4e68d8f6-6a09-4b6c-a07c-9f43b7ada429
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Budgeted Gross Revenue. The target gross revenue defined in the daily budget.
+	measure 'Gross Revenue BUD (€)' = SUM(fct_budget_daily[daily_budget_revenue])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Revenue
+		lineageTag: c2c72ac1-33e1-4ef7-8396-f4d5cbff3ee8
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Budget Performance String. A formatted string showing the percentage variance against the budget for display purposes.
+	measure 'Gross Revenue BUD Performance (String)' =
+			
+			FORMAT([Gross Revenue VAR vs BUD (%)], "+0.0% vs BUD;-0.0% vs BUD")
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: a1930ef6-1a99-47e2-a24b-aaaee330fb03
+
+	/// Gross Revenue Last Month. The gross revenue generated in the previous month relative to the current context.
+	measure 'Gross Revenue LM (€)' =
+			
+			CALCULATE(
+			    [Gross Revenue ACT (€)],
+			    DATEADD('synth_dim_date'[Date], -1, MONTH)
+			)
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: 7ec50ef9-8581-49d5-b10d-5a1931e61c8f
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Month-over-Month Growth (%). The percentage growth in gross revenue compared to the previous month.
+	measure 'Gross Revenue MoM (%)' = DIVIDE([Gross Revenue LM Delta (€)], [Gross Revenue LM (€)], 0)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: 114dcef4-2972-472f-9700-f1a9577e579f
+
+	/// Gross Revenue Month-to-Date. The cumulative gross revenue from the beginning of the current month to the current date.
+	measure 'Gross Revenue MTD (€)' =
+			
+			TOTALMTD([Gross Revenue ACT (€)], 'synth_dim_date'[Date])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: fc0c830c-a3ac-4851-8582-4ff5a549ac6e
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Gross Revenue Quarter-to-Date. The cumulative gross revenue from the beginning of the current quarter to the current date.
+	measure 'Gross Revenue QTD (€)' =
+			
+			TOTALQTD([Gross Revenue ACT (€)], 'synth_dim_date'[Date])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: 95d1c8d7-e6ca-474d-9bb8-a15378154654
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Variance vs Budget (%). The percentage difference between actual gross revenue and budgeted gross revenue.
+	measure 'Gross Revenue VAR vs BUD (%)' = DIVIDE([Gross Revenue VAR vs BUD (€)], [Gross Revenue BUD (€)], 0)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 02 - Comparisons\vs Budget
+		lineageTag: 209e9843-8b30-44e7-afa5-4cc80040df9f
+
+	/// Variance vs Budget (€). The monetary difference between actual gross revenue and budgeted gross revenue.
+	measure 'Gross Revenue VAR vs BUD (€)' = [Gross Revenue ACT (€)] - [Gross Revenue BUD (€)]
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 02 - Comparisons\vs Budget
+		lineageTag: 9603f298-2dcc-48fe-9925-469a7dc74d85
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Gross Revenue Month-over-Month Delta. The difference in gross revenue between the current period and the previous month.
+	measure 'Gross Revenue LM Delta (€)' = [Gross Revenue ACT (€)] - [Gross Revenue LM (€)]
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: afad1217-16bf-48d2-8694-00ec0913dd81
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Gross Revenue Year-to-Date. The cumulative gross revenue from the beginning of the current year to the current date.
+	measure 'Gross Revenue YTD (€)' =
+			
+			TOTALYTD([Gross Revenue ACT (€)], 'synth_dim_date'[Date])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: c0176831-20ea-4a95-9d9d-1166583ed663
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Logistics Costs. The total costs associated with logistics and delivery, allocated to transactions.
+	measure 'Logistics Cost ACT (€)' = SUM(fct_transactions[logistics_allocated_eur])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Cost
+		lineageTag: 508ef1fa-a8b7-40de-b6b9-a795e20a0d6f
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Marketing Costs. The total costs associated with marketing activities, allocated to transactions.
+	measure 'Marketing Cost ACT (€)' = SUM(fct_transactions[marketing_cost_allocated_eur])
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Cost
+		lineageTag: 398233b7-5c07-454a-9a92-9e1e80dd552b
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Total Orders. The count of unique orders placed.
+	measure 'Orders Total ACT (#)' = DISTINCTCOUNT(fct_transactions[order_id])
+		formatString: #,0
+		displayFolder: 00 - Base Measures\Orders
+		lineageTag: 4910ed0c-6148-495b-8be6-00d676a064e1
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Total quantity of items sold across all transactions in the selected period.
+	measure 'Quantity Total ACT (#)' = SUM(fct_transactions[quantity])
+		formatString: 0
+		displayFolder: 00 - Base Measures\Orders
+		lineageTag: 94e3346d-015e-42f3-9a16-d07f287d7b78
+
+	/// Returned Revenue. The value of gross revenue associated with returned transactions.
+	measure 'Returned ACT (€)' = CALCULATE([Gross Revenue ACT (€)], fct_transactions[is_returned] = TRUE())
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Returns
+		lineageTag: 10b4091a-ba2e-490f-a9e3-7b47ddcda36e
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Actual Profit. The calculated profit based on CM2 margin and gross revenue.
+	measure 'Profit ACT (€)' = [CM2 Margin ACT (%)] * [Gross Revenue ACT (€)]
+		formatString: #,0.0\ "€";-#,0.0\ "€";#,0.0\ "€"
+		displayFolder: 00 - Base Measures\Profit
+		lineageTag: f8a461f2-77a9-4f55-a197-000a961f3254
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// COGS (Waterfall). Negative COGS value used for visualizing cost deductions in waterfall charts.
+	measure 'COGS Waterfall' = -1 * [COGS Total ACT (€)]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		displayFolder: 99 - Technical Framework\Waterfall Helpers
+		lineageTag: 0f2d1b8e-19e1-498b-b50e-7322f759dadc
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Logistics (Waterfall). Negative logistics cost value used for visualizing cost deductions in waterfall charts.
+	measure 'Logistics Waterfall' = -1 * [Logistics Cost ACT (€)]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		displayFolder: 99 - Technical Framework\Waterfall Helpers
+		lineageTag: 625f1f20-e7a4-49bd-9a8e-ad1eb2b12561
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Marketing (Waterfall). Negative marketing cost value used for visualizing cost deductions in waterfall charts.
+	measure 'Marketing Waterfall' = -1 * [Marketing Cost ACT (€)]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		displayFolder: 99 - Technical Framework\Waterfall Helpers
+		lineageTag: c2bc1bde-2150-4ce3-a823-feb5841fe7cb
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// Profit (Waterfall). A validation measure that reconstructs profit by summing revenue and negative cost components for waterfall charts.
+	measure 'Profit Waterfall' = [Gross Revenue ACT (€)] + [COGS Waterfall] + [Logistics Waterfall] + [Marketing Waterfall]
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		displayFolder: 99 - Technical Framework\Waterfall Helpers
+		lineageTag: b03c78c7-aafd-4887-bc8d-d1883c33fc8e
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	/// QTD Variance vs Budget. The quarter-to-date percentage variance of actual revenue against the budget.
+	measure 'Delta ACT vs BUD QTD' = ```
+			
+			CALCULATE(
+			    [Gross Revenue VAR vs BUD (%)],
+			    DATESQTD('synth_dim_date'[Date])
+			)
+			
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 02 - Comparisons\vs Budget
+		lineageTag: ca426c66-04cb-408e-8bd5-e7ca8960d073
+
+	/// MTD Variance vs Budget. The month-to-date percentage variance of actual revenue against the budget.
+	measure 'Delta ACT vs BUD MTD' = ```
+			
+			CALCULATE(
+			    [Gross Revenue VAR vs BUD (%)],
+			    DATESMTD('synth_dim_date'[Date])
+			)
+			
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 02 - Comparisons\vs Budget
+		lineageTag: 733a2641-4429-41c6-bb6d-ac57fd2e8b10
+
+	/// YTD Variance vs Budget. The year-to-date percentage variance of actual revenue against the budget.
+	measure 'Delta ACT vs BUD YTD' = ```
+			
+			CALCULATE(
+			    [Gross Revenue VAR vs BUD (%)],
+			    DATESYTD('synth_dim_date'[Date])
+			)
+			
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 02 - Comparisons\vs Budget
+		lineageTag: c6a9e02d-8225-4f63-96c5-1b2468a1a886
+
+	/// Percentage of Actual Gross Revenue (€) generated from transactions flagged as returned compared to the total Actual Gross Revenue (€), regardless of return status.
+	measure 'Returned ACT (%)' =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        fct_transactions[is_returned] = TRUE()
+			    ),
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        ALL(fct_transactions[is_returned])
+			    )
+			)
+		formatString: #,0.0\ %;-#,0.0\ %;#,0.0\ %
+		displayFolder: 00 - Base Measures\Returns
+		lineageTag: dc18bd5f-d7f2-40c7-8ebb-08b7dbc80233
+
+	/// Returns the month-to-date (MTD) Actual Gross Revenue (€) as a human-readable, auto-formatted text value, scaled to K / M / B based on magnitude and appended with the € symbol.
+	measure 'Gross Revenue MTD AF' = ```
+			
+			VAR v =
+			    TOTALMTD ( [Gross Revenue ACT (€)], 'synth_dim_date'[Date] )
+			VAR a = ABS ( v )
+			VAR scale =
+			    SWITCH (
+			        TRUE (),
+			        a >= 1000000000, 1000000000,
+			        a >= 1000000,    1000000,
+			        a >= 1000,       1000,
+			        1
+			    )
+			VAR suffix =
+			    SWITCH (
+			        scale,
+			        1000000000, "B",
+			        1000000,    "M",
+			        1000,       "K",
+			        ""
+			    )
+			VAR n = DIVIDE ( v, scale )
+			RETURN
+			IF (
+			    ISBLANK ( v ),
+			    BLANK (),
+			    FORMAT ( n, "0.0" ) & suffix & " €"
+			)
+			
+			```
+		formatString: 0.0
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: d71942a0-6b02-4189-9a01-b1d4b1298c7a
+
+	/// Returns the quarter-to-date (QTD) Actual Gross Revenue (€) as a human-readable, auto-formatted text value, scaled to K / M / B based on magnitude and appended with the € symbol.
+	measure 'Gross Revenue QTD AF' = ```
+			
+			VAR v =
+			    TOTALQTD ( [Gross Revenue ACT (€)], 'synth_dim_date'[Date] )
+			VAR a = ABS ( v )
+			VAR scale =
+			    SWITCH (
+			        TRUE (),
+			        a >= 1000000000, 1000000000,
+			        a >= 1000000,    1000000,
+			        a >= 1000,       1000,
+			        1
+			    )
+			VAR suffix =
+			    SWITCH (
+			        scale,
+			        1000000000, "B",
+			        1000000,    "M",
+			        1000,       "K",
+			        ""
+			    )
+			VAR n = DIVIDE ( v, scale )
+			RETURN
+			IF (
+			    ISBLANK ( v ),
+			    BLANK (),
+			    FORMAT ( n, "0.0" ) & suffix & " €"
+			)
+			
+			```
+		formatString: 0.0
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: b538208c-2dc4-4a10-bd5b-b9632c253aa2
+
+	/// Returns the year-to-date (YTD) Actual Gross Revenue (€) as a human-readable, auto-formatted text value, scaled to K / M / B based on magnitude and appended with the € symbol.
+	measure 'Gross Revenue YTD AF' = ```
+			
+			VAR v =
+			    TOTALYTD ( [Gross Revenue ACT (€)], 'synth_dim_date'[Date] )
+			VAR a = ABS ( v )
+			VAR scale =
+			    SWITCH (
+			        TRUE (),
+			        a >= 1000000000, 1000000000,
+			        a >= 1000000,    1000000,
+			        a >= 1000,       1000,
+			        1
+			    )
+			VAR suffix =
+			    SWITCH (
+			        scale,
+			        1000000000, "B",
+			        1000000,    "M",
+			        1000,       "K",
+			        ""
+			    )
+			VAR n = DIVIDE ( v, scale )
+			RETURN
+			IF (
+			    ISBLANK ( v ),
+			    BLANK (),
+			    FORMAT ( n, "0.0" ) & suffix & " €"
+			)
+			
+			```
+		formatString: 0.0
+		displayFolder: 01 - Time Intelligence\Revenue
+		lineageTag: 797b506a-97cd-46b7-bc5f-a3c6bc25626b
+
+	/// Month-over-month percentage change in actual profit, comparing the current month to the prior calendar month.
+	measure 'Profit ACT MoM %' =
+			
+			VAR CurrentMonth = [Profit ACT (€)]
+			VAR PrevMonth =
+			    CALCULATE(
+			        [Profit ACT (€)],
+			        DATEADD(synth_dim_date[Date], -1, MONTH)
+			    )
+			RETURN
+			DIVIDE(CurrentMonth - PrevMonth, PrevMonth)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 00 - Base Measures\Profit
+		lineageTag: 2902be8a-a2c2-4f25-bf25-956a482b679d
+
+	/// Year-over-year percentage change in gross revenue. Compares the current period's gross revenue to the same period in the prior year. Positive values indicate revenue growth.
+	/// 
+	measure 'Gross Revenue Δ% YoY' = ```
+			
+			VAR _Current = [Gross Revenue ACT (€)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        SAMEPERIODLASTYEAR( synth_dim_date[Date] )
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK( _PriorYear ),
+			    DIVIDE( _Current - _PriorYear, _PriorYear, 0 ),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: ff9d1501-56a8-4ba9-86e0-07ffc021fd7b
+
+	/// Year-over-year absolute change in CM2 margin expressed in basis points. The most comprehensive profitability trend indicator, reflecting combined effects of pricing, cost, logistics, and marketing efficiency changes.
+	/// 
+	measure 'CM2 Margin Δ YoY (bps)' = ```
+			
+			VAR _Current = [CM2 Margin ACT (%)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [CM2 Margin ACT (%)],
+			        SAMEPERIODLASTYEAR( synth_dim_date[Date] )
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK( _PriorYear ),
+			    ROUND( ( _Current - _PriorYear ) * 10000, 1 ),
+			    BLANK()
+			)
+			```
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: b838b609-8eaf-4ccf-9817-489020f9ad22
+
+		formatStringDefinition = "+0.0;-0.0;0.0"
+
+	/// Month-to-date year-over-year change in gross revenue. Compares cumulative revenue from the 1st of the current month through today against the same day range in the prior year's equivalent month.
+	measure 'Gross Revenue MTD Δ% YoY' = ```
+			
+			VAR _CurrentMTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESMTD(synth_dim_date[Date])
+			    )
+			VAR _PriorYearMTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESMTD(synth_dim_date[Date]),
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYearMTD),
+			    DIVIDE(_CurrentMTD - _PriorYearMTD, _PriorYearMTD, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 56607640-0275-44ed-8b6b-c75ac3adf597
+
+	/// Quarter-to-date year-over-year change in gross revenue. Compares cumulative revenue from the start of the current quarter through today against the equivalent period in the prior year's quarter.
+	measure 'Gross Revenue QTD Δ% YoY' = ```
+			
+			VAR _CurrentQTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESQTD(synth_dim_date[Date])
+			    )
+			VAR _PriorYearQTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESQTD(synth_dim_date[Date]),
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYearQTD),
+			    DIVIDE(_CurrentQTD - _PriorYearQTD, _PriorYearQTD, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: bfd0c2d2-e82c-418e-b07b-e6ff846b49a2
+
+	/// Year-to-date year-over-year change in gross revenue. Compares cumulative revenue from January 1st through today against the same period in the prior year.
+	/// 
+	measure 'Gross Revenue YTD Δ% YoY' = ```
+			
+			VAR _CurrentYTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESYTD(synth_dim_date[Date])
+			    )
+			VAR _PriorYearYTD = 
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        DATESYTD(synth_dim_date[Date]),
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYearYTD),
+			    DIVIDE(_CurrentYTD - _PriorYearYTD, _PriorYearYTD, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 0f46865f-f663-49ea-bc8d-04fe38f039e1
+
+	/// Year-over-year percentage change in cost of goods sold. Positive values indicate rising costs. Interpret alongside revenue growth to assess margin trajectory.
+	measure 'COGS Δ% YoY' = ```
+			
+			VAR _Current = [COGS Total ACT (€)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [COGS Total ACT (€)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    DIVIDE(_Current - _PriorYear, _PriorYear, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: ea83c416-6c22-4ffc-a57d-61161fb972c5
+
+	/// Year-over-year absolute change in CM1 margin expressed in basis points. One basis point equals 0.01 percentage points. Positive values indicate margin expansion.
+	/// 
+	measure 'CM1 Margin Δ YoY (bps)' = ```
+			
+			VAR _Current = [CM1 Margin ACT (%)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [CM1 Margin ACT (%)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    ROUND((_Current - _PriorYear) * 10000, 1),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 7edae818-920c-4bcb-9387-8f642c1b74a0
+
+	/// Year-over-year percentage change in order count. Compares unique orders in the current period to the same period in the prior year. Positive values indicate volume growth.
+	/// 
+	measure 'Orders Δ% YoY' = ```
+			
+			VAR _Current = [Orders Total ACT (#)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [Orders Total ACT (#)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    DIVIDE(_Current - _PriorYear, _PriorYear, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 3110f44f-2630-49e9-ad62-4aa3ee02b813
+
+	/// Year-over-year percentage change in average order value. Positive values indicate customers are spending more per order, driven by price increases, upselling, or mix shifts toward higher-value products.
+	measure 'AOV Δ% YoY' = ```
+			
+			VAR _Current = [AOV ACT (€)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [AOV ACT (€)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    DIVIDE(_Current - _PriorYear, _PriorYear, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 23c7eb1f-d6a6-4775-afa5-3af4d3766508
+
+	/// Year-over-year percentage change in logistics cost. Positive values indicate rising fulfillment expenses. Compare against order volume growth to assess per-unit cost efficiency.
+	/// 
+	measure 'Logistics Cost Δ% YoY' = ```
+			
+			VAR _Current = [Logistics Cost ACT (€)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [Logistics Cost ACT (€)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    DIVIDE(_Current - _PriorYear, _PriorYear, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 002ba9fa-ea54-443f-be89-97fec202a41c
+
+	/// Year-over-year percentage change in marketing cost. Positive values indicate increased spend. Driven by both order volume changes and price tier reclassifications that shift per-order allocation rates.
+	measure 'Marketing Cost Δ% YoY' = ```
+			
+			VAR _Current = [Marketing Cost ACT (€)]
+			VAR _PriorYear = 
+			    CALCULATE(
+			        [Marketing Cost ACT (€)],
+			        SAMEPERIODLASTYEAR(synth_dim_date[Date])
+			    )
+			RETURN
+			IF(
+			    NOT ISBLANK(_PriorYear),
+			    DIVIDE(_Current - _PriorYear, _PriorYear, 0),
+			    BLANK()
+			)
+			```
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: cfa7d93e-4d61-4515-a0ff-1130cbf4fd16
+
+	/// Gross Revenue Δ% YoY Display: Formatted year-over-year revenue change with directional arrow. Display-only string for KPI cards and tooltips. Use the numeric measure for conditional formatting.
+	/// 
+	measure 'Gross Revenue Δ% YoY Display' = ```
+			
+			VAR _Value = [Gross Revenue Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: b2bbe084-55b6-45d6-bc0e-ac7c506168b5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// CM2 Margin Δ YoY Display: Formatted year-over-year CM2 margin change in basis points with directional arrow. Display-only string for KPI cards and tooltips. Use the numeric measure for conditional formatting.
+	/// 
+	measure 'CM2 Margin Δ YoY Display' =
+			
+			VAR _Value = [CM2 Margin Δ YoY (bps)]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", ""))
+			        & FORMAT(ABS(_Value), "0.0") & " bps",
+			    BLANK()
+			)
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 3d7ffafb-b8ef-4f31-9e5f-dfb0e2e91e19
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year % change in COGS as a display-friendly text value with directional indicators.
+	measure 'COGS Δ% YoY Display' = ```
+			
+			VAR _Value = [COGS Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 817d81f3-8f1f-40f2-807e-304f2f7fbe40
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year change in CM1 Margin (bps) as a display-ready text value with directional indicators.
+	measure 'CM1 Margin Δ YoY Display' =
+			
+			VAR _Value = [CM1 Margin Δ YoY (bps)]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", ""))
+			        & FORMAT(ABS(_Value), "0.0") & " bps",
+			    BLANK()
+			)
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 3b4eb571-3d97-414d-8ddc-cfa0c33fac84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year % change in Order Quantity as a display-friendly text value with directional indicators.
+	measure 'Orders Δ% YoY Display' = ```
+			
+			VAR _Value = [Orders Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 0538ecfc-570d-4f2b-a38f-d828ec3755d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year % change in AOV as a display-friendly text value with directional indicators.
+	measure 'AOV Δ% YoY Display' = ```
+			
+			VAR _Value = [AOV Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: f9cbc44d-834a-449f-b185-dad61cd943e8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year % change in Logistics Cost as a display-friendly text value with directional indicators.
+	measure 'Logistics Cost Δ% YoY Display' = ```
+			
+			VAR _Value = [Logistics Cost Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 1acc0f72-20cb-49d2-89fb-345ba054c14f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Formats the Year-over-Year % change in Marketing Costs as a display-friendly text value with directional indicators.
+	measure 'Marketing Cost Δ% YoY Display' = ```
+			
+			VAR _Value = [Marketing Cost Δ% YoY]
+			RETURN
+			IF(
+			    NOT ISBLANK(_Value),
+			    IF(_Value > 0, "▲ ", IF(_Value < 0, "▼ ", "")) 
+			        & FORMAT(ABS(_Value), "0.0%"),
+			    BLANK()
+			)
+			```
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 0bed2981-582e-4c6b-bc29-b49bb995de6c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Measures the year-over-year change in the Returned rate (Returned ACT %) expressed in basis points (bps) by comparing the current period’s return rate to the same period last year.
+	measure 'Returned YoY Δ (bps)' =
+			
+			VAR CurrentRate = [Returned ACT (%)]
+			VAR PriorRate =
+			    CALCULATE(
+			        [Returned ACT (%)],
+			        SAMEPERIODLASTYEAR('synth_dim_date'[Date])
+			    )
+			RETURN
+			    (CurrentRate - PriorRate) * 10000
+		formatString: 0.0
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: 40b7d95f-a9d7-4928-b59e-dafdfd037b7c
+
+	/// Calculates the year-over-year (YoY) percentage change in Actual Profit (€) by comparing the current period’s profit to the profit from the same period last year.
+	measure 'Profit ACT YoY %' =
+			
+			VAR CurrentYear =
+			    [Profit ACT (€)]
+			
+			VAR PrevYear =
+			    CALCULATE(
+			        [Profit ACT (€)],
+			        DATEADD(synth_dim_date[Date], -1, YEAR)
+			    )
+			
+			RETURN
+			DIVIDE(CurrentYear - PrevYear, PrevYear)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: 02 - Comparisons\YoY
+		lineageTag: b7aa9fa7-f579-4085-b737-81cda217a27f
+
+	/// Estimates the profit impact of returned transactions by applying the current CM2 margin (%) to actual gross revenue from returned sales.
+	measure 'Returned Profit Impact (€)' =
+			
+			VAR ReturnedRevenue =
+			    CALCULATE(
+			        [Gross Revenue ACT (€)],
+			        fct_transactions[is_returned] = TRUE()
+			    )
+			RETURN
+			ReturnedRevenue * [CM2 Margin ACT (%)]
+		formatString: "€"\ #,0.0;-"€"\ #,0.0;"€"\ #,0.0
+		displayFolder: 03 - Business Performance\Profit
+		lineageTag: ae13af5b-a0cc-4b96-9697-36399506a1e6
+
+	/// Calculates the maximum Actual AOV (€) within the current selection and adds a 25% buffer for dynamic chart axis scaling.
+	measure 'AOV Axis Max (25% buffer)' =
+			
+			VAR MaxInSelection =
+			    MAXX(
+			        ALLSELECTED ( synth_dim_date[Date] ),   -- respects slicers + current visual selection
+			        [AOV ACT (€)]
+			    )
+			RETURN
+			    MaxInSelection * 1.25
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: de990324-4533-401f-9467-c6ae9e77d5d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Returns a dynamic text summary of currently applied filters for Shop and Business Unit, listing selected values and showing “None” when no relevant filters are applied.
+	measure 'Applied Filters' =
+			
+			VAR ShopFilter =
+			    IF (
+			        ISFILTERED ( fct_transactions[shop_key] ),
+			        "Shop: "
+			            & CONCATENATEX (
+			                VALUES ( fct_transactions[shop_key] ),
+			                fct_transactions[shop_key],
+			                ", "
+			            )
+			    )
+			
+			VAR BUFilter =
+			    IF (
+			        ISFILTERED ( dim_products[business_unit] ),
+			        "Unit: "
+			            & CONCATENATEX (
+			                VALUES ( dim_products[business_unit] ),
+			                dim_products[business_unit],
+			                ", "
+			            )
+			    )
+			
+			VAR FilterTable =
+			    UNION (
+			        ROW ( "F", ShopFilter ),
+			        ROW ( "F", BUFilter )
+			    )
+			
+			VAR Result =
+			    CONCATENATEX (
+			        FILTER ( FilterTable, NOT ISBLANK ( [F] ) ),
+			        [F],
+			        " • "
+			    )
+			
+			RETURN
+			IF ( Result = BLANK (), "Applied Filters: None", "Applied Filters: " & Result )
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 3ac10927-a4fb-4452-84d8-d02b4ac71998
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Calculates the maximum CM1 Margin ACT (%) within the current selection and adds a 25% buffer for dynamic chart axis scaling.
+	measure 'CM1 Axis Max (25% buffer)' =
+			
+			VAR MaxInSelection =
+			    MAXX(
+			        ALLSELECTED ( synth_dim_date[Date] ),   -- respects slicers + current visual selection
+			        [CM1 Margin ACT (%)]
+			    )
+			RETURN
+			    MaxInSelection * 1.25
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 6e441604-342a-48d3-a680-dc60e1bb2978
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Calculates the maximum CM2 Margin ACT (%) within the current selection and adds a 25% buffer for dynamic chart axis scaling.
+	measure 'CM2 Axis Max (25% buffer)' =
+			
+			VAR MaxInSelection =
+			    MAXX(
+			        ALLSELECTED ( synth_dim_date[Date] ),   -- respects slicers + current visual selection
+			        [CM2 Margin ACT (%)]
+			    )
+			RETURN
+			    MaxInSelection * 1.25
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: b0e21a01-3bcc-4703-848c-8213e70a8941
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Displays the currently selected date range (minimum to maximum date in context) as formatted text.
+	measure 'Selected Period (From–To)' =
+			
+			VAR MinDate =
+			    MIN ( 'synth_dim_date'[Date] )
+			VAR MaxDate =
+			    MAX ( 'synth_dim_date'[Date] )
+			
+			RETURN
+			"Selected Period: "
+			    & FORMAT ( MinDate, "dd.MM.yyyy" )
+			    & " – "
+			    & FORMAT ( MaxDate, "dd.MM.yyyy" )
+		displayFolder: 99 - Technical Framework\Display Formatting
+		lineageTag: 38f22a96-bca0-4ce5-8539-f53cc51aa38b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _Measuretable = m
+		mode: import
+		source =
+				let
+				    Quelle = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WUlCKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Empty = _t]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(Quelle,{{"Empty", type text}}),
+				    #"Entfernte Spalten" = Table.RemoveColumns(#"Geänderter Typ",{"Empty"})
+				in
+				    #"Entfernte Spalten"
+
+	annotation PBI_ResultType = Table
+

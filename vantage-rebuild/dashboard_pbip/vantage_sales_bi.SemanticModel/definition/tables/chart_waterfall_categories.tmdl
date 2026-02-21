@@ -1,0 +1,58 @@
+table chart_waterfall_categories
+	lineageTag: a53aef5a-d017-477e-beb8-f4bad28698c6
+
+	measure 'Waterfall Value' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('chart_waterfall_categories'[Category]),
+			    "Revenue", [Gross Revenue ACT (€)],
+			    "COGS", [COGS Waterfall],
+			    "Logistics", [Logistics Waterfall],
+			    "Marketing", [Marketing Waterfall],
+			    "Profit", [Profit Waterfall]
+			)
+			
+			```
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: 3ea73bfe-e988-44c6-ab8c-f46f128f50f2
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column Category
+		lineageTag: 48519298-fe68-484d-9731-63458dfc9933
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Category]
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		formatString: 0
+		lineageTag: a93d7f0d-7401-410c-8611-aabfa1cc696c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition chart_waterfall_categories = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Category", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Revenue", 1},
+				        {"COGS", 2},
+				        {"Logistics", 3},
+				        {"Marketing", 4},
+				        {"Profit", 5}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = a265ab5c868a4198a2f5d9df6a9cc85f
+

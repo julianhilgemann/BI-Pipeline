@@ -1,0 +1,68 @@
+/// Product dimension table containing one row per SKU (sku_id).
+/// Provides product attributes such as product name, category, business unit, and list price (EUR).
+/// Used to slice and analyze transactional and budget data by product hierarchy.
+/// 
+table dim_products
+	lineageTag: ec7972ed-f3fe-489b-9f2c-50d2bcfdd9e4
+
+	column sku_id
+		dataType: string
+		lineageTag: f233e50f-634a-4aac-93b7-40fffa1fe47d
+		summarizeBy: none
+		sourceColumn: sku_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: f09233e5-7c56-4756-880c-c72d480547f5
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 5488bfc2-eb24-4222-84ea-21b974e3ab08
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_unit
+		dataType: string
+		lineageTag: 59528baa-1a1a-4315-8b9d-e71e88bcf932
+		summarizeBy: none
+		sourceColumn: business_unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column list_price_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 6f524d86-2027-49f1-a927-4bde5f2ec63a
+		summarizeBy: none
+		sourceColumn: list_price_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents("https://raw.githubusercontent.com/julianhilgemann/BI-Pipeline/refs/heads/main/vantage-rebuild/data/export/dim_products.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    PromoteHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    #"Ersetzter Wert" = Table.ReplaceValue(PromoteHeaders,".",",",Replacer.ReplaceText,{"list_price_eur"}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Ersetzter Wert",{{"list_price_eur", Currency.Type}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

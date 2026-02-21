@@ -1,0 +1,50 @@
+table param_date
+	lineageTag: eb0cc600-44e6-4cfd-a88f-f46eb9ca7189
+
+	column Parameter
+		lineageTag: df828bc7-05a8-4d80-b698-b8eae2f59772
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Reihenfolge'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Felder'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Felder'
+		isHidden
+		lineageTag: f5d7ac65-a188-46ed-a771-aa569b8e825a
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Reihenfolge'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Reihenfolge'
+		isHidden
+		formatString: 0
+		lineageTag: 72905ae1-2218-4002-a2f6-f894c999c6c5
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition param_date = calculated
+		mode: import
+		source =
+				{
+				    ("D", NAMEOF('synth_dim_date'[Date]), 0),
+				    ("W", NAMEOF('synth_dim_date'[Year Week Number]), 1),
+				    ("M", NAMEOF('synth_dim_date'[Month Year (MM/YY)]), 2),
+				    ("Q", NAMEOF('synth_dim_date'[Quarter Year]), 3)
+				}
+
+	annotation PBI_Id = 5f130d83665e45ba81d9753046a9df76
+

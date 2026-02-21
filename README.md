@@ -4,11 +4,31 @@
 > **Owner:** Analytics Engineering Portfolio
 > **Stack:** Python, DuckDB, dbt, Power BI
 
-## 1. Executive Summary
-This project acts as the "Single Source of Truth" for Vantage Alpin's financial reporting. It replaces legacy PDF reports with a dynamic Modern Data Stack (MDS).
-The pipeline simulates a realistic e-commerce environment (Data Science Layer), transforms raw stochastic data into a clean Star Schema (Analytics Engineering Layer), and serves it via a robust dimensional model (BI Layer).
+## 1. Project Overview
+This project acts as the "Single Source of Truth" for Vantage Alpin's financial reporting. It replaces legacy PDF reports with a dynamic Modern Data Stack (MDS). By simulating a realistic e-commerce environment, transforming raw stochastic data into a clean Star Schema, and serving it via a robust dimensional model, it delivers a highly scalable and interactive Business Intelligence experience.
 
-## 2. Architecture
+## 2. Business Intelligence (Power BI)
+
+### Dashboard Overview
+The core of this project is the top-level analytical dashboard, designed to answer key business questions at a glance and provide a progressive disclosure of detailed data.
+
+![Vantage Dashboard](vantage-rebuild/viz/vantage_dashboard_main.png)
+
+### Data Model
+We prioritize maintainability over complexity. The data model follows a strict **Star Schema** with a clear separation of facts and dimensions. We enforce a "No Calculated Columns" policy to ensure optimal compression and performance. 
+
+![Data Model](vantage-rebuild/viz/vantage_data_model.png)
+
+### Measure Logic & Scalability
+Our DAX engineering strategy is driven by efficiency and scalability. Measures are organized logically into folders and subfolders for easy navigation. 
+
+![Measures](vantage-rebuild/viz/vantage_dashboard_measures.png)
+
+We utilize best practices for measure logic, prioritizing scalability in mind. **Calculation Groups** enable clutter-free and rapid iteration on the existing semantic model, significantly reducing measure bloat and allowing users to seamlessly switch between different dynamic views.
+
+Metadata is added everywhere so that it is always clear what the measures actually do, what the tables mean, and so on. This clean metadata infrastructure enables a **Model inherent KPI Framework** with an interactive glossary as well as interactive tool-tips and definitions, ensuring the self-documenting semantic layer is completely transparent for any analyst.
+
+## 3. Architecture
 
 ```mermaid
 flowchart LR
@@ -39,7 +59,7 @@ flowchart LR
     Exp --> PBI
 ```
 
-## 3. Data Science: Controlled Stochasticity
+## 4. Data Generation: Controlled Stochasticity
 We generate realistic transaction data using statistical modeling rather than simple random sampling. This ensures the data exhibits the complex patterns found in real e-commerce businesses.
 
 ### A. Temporal Dynamics (The "When")
@@ -63,7 +83,7 @@ $$ \lambda_t = \text{Trend}(t) \times \text{Season}_{week}(t) \times \text{Seaso
   <img src="vantage-rebuild/viz/pareto_affinity.png" width="48%" />
 </div>
 
-## 4. Analytics Engineering: The Logic Layer (`/dbt_project`)
+## 5. Analytics Engineering: The Logic Layer (`/dbt_project`)
 We follow a strict **Kimball** dimensional modeling methodology.
 
 ### A. Key Transformations
@@ -80,31 +100,6 @@ We follow a strict **Kimball** dimensional modeling methodology.
 *   **`fct_transactions`**: The central fact table at the **Line Item Grain**. Contains all revenue, COGS, allocated logistics costs, and allocated marketing costs.
 *   **`dim_products`**: Type 1 SCD (Slowly Changing Dimension) for product attributes.
 *   **`fct_budget_daily`**: Monthly budget targets fanned out to daily grain for "Pacing" charts in BI.
-
-## 5. Business Intelligence Architecture (Power BI)
-This project treats the BI layer as a software product, not just a collection of charts.
-
-### A. Model Architecture & Governance
-We prioritize maintainability over complexity. The data model follows a strict **Star Schema** with a clear separation of facts and dimensions. Measures are organized into folder structures with subfolders for easy navigation. We enforce a "No Calculated Columns" policy to ensure optimal compression and performance. A dedicated `DAX_Metadata` table feeds a **dynamically generated KPI Glossary**, ensuring that documentation never drifts from the code. This self-documenting infrastructure means any new analyst can understand the semantic layer in under 30 minutes.
-
-### B. DAX Engineering
-Efficiency and scalability drive our DAX strategy. We utilize **Calculation Groups** to reduce measure bloat by ~60%, enabling users to switch between Actuals, Budget, Delta, and YoY views with a single interaction pattern. **Field Parameters** allow users to explore any KPI × Dimension combination dynamically, preventing the need for $N^2$ static visuals. We employ classic BI patterns for Time Intelligence (YTD/QTD/MoM) and complex financial logic (Pacing, Waterfall charts), wrapping them in clean, well-formatted DAX measures.
-
-### C. UX & Visual Design
-Every visual decision serves a specific analytical purpose. We adhere to **IBCS-adjacent principles**, restricting the color palette to functional encodings (Profit = Green, Loss = Red, Volume = Grey) rather than decoration. A strict typographical hierarchy and grid system (managed via layers) ensure accessible, professional information density. SVG icons are used for lightweight, crisp visuals, and conditional formatting directs user attention immediately to outliers.
-
-### D. Interactivity & Navigation
-We interpret "Self-Service BI" as **progressive disclosure**. The top-level dashboard answers key business questions at a glance. Users can then **Drill Through** to detailed pages for granular analysis or hover over KPI cards to reveal trend tooltips. Field parameter switchers put the control in the user's hands, making the report a flexible tool rather than a static snapshot.
-
-### E. Data Connection (Legacy/Local)
-DuckDB is an embedded database. In many local Power BI environments, an ODBC driver is not available or difficult to configure. 
-To bypass this, we implemented a **Parquet Export Workflow**:
-1.  **Extract:** Review `src/export_bi_tables.py`.
-2.  **Transform:** `COPY (SELECT * FROM mart) TO 'file.parquet'`. (Script also produces `.csv`).
-3.  **Load:** Power BI reads the folder of Parquet or CSV files directly.
-    -   *Bonus:* All files are also compressed into `bi_export.zip` for easy distribution. 
-
-> **Note:** In a production cloud environment (e.g., Snowflake/BigQuery), Power BI would connect directly via DirectQuery or Import Mode.
 
 ## 6. How to Run (Quick Start)
 
@@ -165,8 +160,3 @@ Once your environment is active (you should see `(.venv)` in your terminal promp
     # From project root
     python src/export_bi_tables.py
     ```
-
-## 7. Visual Guide (Power BI)
-*See `vantage-rebuild/viz/vantage_theme.json` for the Design System.*
-- **Color Palette:** Alpine Spruce (Profit), Rescue Orange (Loss), Slate (Volume).
-- **Typography:** DIN Pro (Technical) & Inter (UI).

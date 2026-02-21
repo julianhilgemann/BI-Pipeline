@@ -1,0 +1,53 @@
+table param_kpis
+	lineageTag: fc0043f7-688e-426d-b7cb-1df905867e34
+
+	column Parameter
+		lineageTag: 17058320-ba06-4ec5-a6b0-40b6effcf31a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Reihenfolge'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Felder'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Felder'
+		isHidden
+		lineageTag: 6e3af4e7-2115-4779-8f84-fe3291c2241f
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Reihenfolge'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Reihenfolge'
+		isHidden
+		formatString: 0
+		lineageTag: deaaf138-a96a-4510-99c1-a55ce8f524d8
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition param_kpis = calculated
+		mode: import
+		source =
+				{
+				    ("COGS Total (€)", NAMEOF('_Measuretable'[COGS Total ACT (€)]), 0),
+				    ("AOV (€)", NAMEOF('_Measuretable'[AOV ACT (€)]), 1),
+				    ("Gross Revenue (€)", NAMEOF('_Measuretable'[Gross Revenue ACT (€)]), 2),
+				    ("Orders Total (#)", NAMEOF('_Measuretable'[Orders Total ACT (#)]), 3),
+				    ("Returned (€)", NAMEOF('_Measuretable'[Returned ACT (€)]), 4),
+				    ("CM1 Margin (%)", NAMEOF('_Measuretable'[CM1 Margin ACT (%)]), 5),
+				    ("CM2 Margin (%)", NAMEOF('_Measuretable'[CM2 Margin ACT (%)]), 6)
+				}
+
+	annotation PBI_Id = b13a0c8fe301452192d91068ed9ebf1e
+

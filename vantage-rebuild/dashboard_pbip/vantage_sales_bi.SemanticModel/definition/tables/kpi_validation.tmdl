@@ -1,0 +1,106 @@
+table kpi_validation
+	lineageTag: 6ab891ef-acb4-4921-a6d8-2e17e555e1c3
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 5cfb248e-dde8-489a-81a4-75f46a28d77e
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: ad477705-4658-4a65-81ef-3fac8c6b1c0a
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column shop_key
+		dataType: string
+		lineageTag: 10b7061b-7539-48ae-b41e-4a9513682296
+		summarizeBy: none
+		sourceColumn: shop_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 351e662f-907d-4b53-863d-eda9e8e69b66
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: e6bfc514-d398-4e1b-bcef-79941ebb2fd0
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column marketing_spend
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 5c0fed2c-c8fb-428e-84d3-30d78f8b5feb
+		summarizeBy: sum
+		sourceColumn: marketing_spend
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column contribution_margin
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: b6387e1c-f8a1-4263-9159-b4571633f6bf
+		summarizeBy: sum
+		sourceColumn: contribution_margin
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column returned_revenue
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 94ea4197-c9d8-49fa-809f-0fc4018bb5d3
+		summarizeBy: sum
+		sourceColumn: returned_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	partition kpi_validation = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents("https://raw.githubusercontent.com/julianhilgemann/BI-Pipeline/refs/heads/main/vantage-rebuild/data/export/kpi_validation.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    PromoteHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    #"Ersetzter Wert" = Table.ReplaceValue(PromoteHeaders,".",",",Replacer.ReplaceText,{"gross_revenue"}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Ersetzter Wert",{{"gross_revenue", Currency.Type}}),
+				    #"Ersetzter Wert1" = Table.ReplaceValue(#"Geänderter Typ",".",",",Replacer.ReplaceText,{"marketing_spend"}),
+				    #"Geänderter Typ1" = Table.TransformColumnTypes(#"Ersetzter Wert1",{{"marketing_spend", Currency.Type}}),
+				    #"Ersetzter Wert2" = Table.ReplaceValue(#"Geänderter Typ1",".",",",Replacer.ReplaceText,{"contribution_margin"}),
+				    #"Geänderter Typ2" = Table.TransformColumnTypes(#"Ersetzter Wert2",{{"contribution_margin", Currency.Type}}),
+				    #"Ersetzter Wert3" = Table.ReplaceValue(#"Geänderter Typ2",".",",",Replacer.ReplaceText,{"returned_revenue"}),
+				    #"Geänderter Typ3" = Table.TransformColumnTypes(#"Ersetzter Wert3",{{"returned_revenue", Currency.Type}, {"total_orders", Int64.Type}, {"month", Int64.Type}, {"year", Int64.Type}})
+				in
+				    #"Geänderter Typ3"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

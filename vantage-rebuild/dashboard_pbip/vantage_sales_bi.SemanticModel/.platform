@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "vantage_sales_bi"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1fd2b2fc-a437-478c-b290-8e919b716956"
+  }
+}

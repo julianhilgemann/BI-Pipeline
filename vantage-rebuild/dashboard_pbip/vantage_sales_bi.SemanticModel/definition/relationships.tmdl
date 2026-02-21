@@ -1,0 +1,12 @@
+relationship d5896196-bdd3-984a-37f2-593b1999f474
+	fromColumn: fct_transactions.product_key
+	toColumn: dim_products.sku_id
+
+relationship ff8c3d77-2503-c8b2-e0ec-b7229d6c6813
+	fromColumn: fct_transactions.date_key
+	toColumn: synth_dim_date.Date
+
+relationship d6e4805d-a05a-7b0c-76b9-8bd9fbb9c9e1
+	fromColumn: fct_budget_daily.date_day
+	toColumn: synth_dim_date.Date
+

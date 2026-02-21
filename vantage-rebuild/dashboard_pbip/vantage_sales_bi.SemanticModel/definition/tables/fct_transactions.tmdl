@@ -1,0 +1,188 @@
+/// ransaction-level fact table containing one row per order line item (order_id + line_item_id).
+/// Stores revenue, cost, quantity, and return information.
+/// Primary source for all sales, margin, and variance measures in the semantic model.
+/// 
+table fct_transactions
+	lineageTag: ce61921c-f8b7-4571-8880-8f1929a8942c
+
+	column order_id
+		dataType: string
+		lineageTag: 28fff2a1-bfba-47e8-8014-064920f17b42
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_id
+		dataType: string
+		lineageTag: ed360136-b7b9-4876-b188-f4e17728a468
+		summarizeBy: none
+		sourceColumn: line_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 4ae881c5-f828-44c9-9fb8-778436e618dc
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shop_key
+		dataType: string
+		lineageTag: 17975424-adbf-4cf3-a66e-45b921b4244e
+		summarizeBy: none
+		sourceColumn: shop_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		lineageTag: 9e1e63a5-11d3-4459-9603-dafa1b265543
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: string
+		lineageTag: 9c83f465-f750-4fb3-9086-548d79fa3bee
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 465ae115-9d77-4112-85da-f85031e29bb5
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: dc7c6833-68d3-4d1e-97b0-d7270613c345
+		summarizeBy: sum
+		sourceColumn: gross_revenue_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column cogs_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 444da5d7-77ec-4188-820c-09545e21e4a0
+		summarizeBy: sum
+		sourceColumn: cogs_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column cogs_eur_1
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 58735b49-b8b9-4dde-b6b8-99ecb9702fb3
+		summarizeBy: sum
+		sourceColumn: cogs_eur_1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column logistics_allocated_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 75a6996a-883a-4e12-bcf9-59361168a91b
+		summarizeBy: sum
+		sourceColumn: logistics_allocated_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column marketing_cost_allocated_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: b668f2f2-4a94-450c-8a9c-e3fa2228613e
+		summarizeBy: sum
+		sourceColumn: marketing_cost_allocated_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column contribution_margin_eur
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: 68e87fe8-973d-4209-a8da-e948e5ad478d
+		summarizeBy: sum
+		sourceColumn: contribution_margin_eur
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column is_returned
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2b00d9e2-5471-4cf1-bf69-78c41ca24b01
+		summarizeBy: none
+		sourceColumn: is_returned
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date
+		dataType: string
+		lineageTag: 195d29cf-76ec-4ab1-a8b5-f305f51d67d3
+		summarizeBy: none
+		sourceColumn: ship_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_date
+		dataType: string
+		lineageTag: 169a02e2-cd3b-438e-8e24-6258d857d8cc
+		summarizeBy: none
+		sourceColumn: return_date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Transactions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents("https://raw.githubusercontent.com/julianhilgemann/BI-Pipeline/refs/heads/main/vantage-rebuild/data/export/fct_transactions.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    PromoteHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    #"Analysiertes Datum" = Table.TransformColumns(PromoteHeaders,{{"date_key", each Date.From(DateTimeZone.From(_)), type date}}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Analysiertes Datum",{{"quantity", Int64.Type}}),
+				    #"Ersetzter Wert" = Table.ReplaceValue(#"Geänderter Typ",".",",",Replacer.ReplaceText,{"gross_revenue_eur"}),
+				    #"Geänderter Typ1" = Table.TransformColumnTypes(#"Ersetzter Wert",{{"gross_revenue_eur", Int64.Type}}),
+				    #"Ersetzter Wert1" = Table.ReplaceValue(#"Geänderter Typ1",".",",",Replacer.ReplaceText,{"cogs_eur"}),
+				    #"Geänderter Typ2" = Table.TransformColumnTypes(#"Ersetzter Wert1",{{"cogs_eur", Currency.Type}}),
+				    #"Ersetzter Wert2" = Table.ReplaceValue(#"Geänderter Typ2",".",",",Replacer.ReplaceText,{"cogs_eur_1"}),
+				    #"Geänderter Typ3" = Table.TransformColumnTypes(#"Ersetzter Wert2",{{"cogs_eur_1", Currency.Type}}),
+				    #"Ersetzter Wert3" = Table.ReplaceValue(#"Geänderter Typ3",".",",",Replacer.ReplaceText,{"logistics_allocated_eur"}),
+				    #"Geänderter Typ4" = Table.TransformColumnTypes(#"Ersetzter Wert3",{{"logistics_allocated_eur", Currency.Type}}),
+				    #"Ersetzter Wert4" = Table.ReplaceValue(#"Geänderter Typ4",".",",",Replacer.ReplaceText,{"marketing_cost_allocated_eur"}),
+				    #"Geänderter Typ5" = Table.TransformColumnTypes(#"Ersetzter Wert4",{{"marketing_cost_allocated_eur", Currency.Type}}),
+				    #"Ersetzter Wert5" = Table.ReplaceValue(#"Geänderter Typ5",".",",",Replacer.ReplaceText,{"contribution_margin_eur"}),
+				    #"Geänderter Typ6" = Table.TransformColumnTypes(#"Ersetzter Wert5",{{"contribution_margin_eur", Currency.Type}, {"is_returned", type logical}, {"gross_revenue_eur", Currency.Type}})
+				in
+				    #"Geänderter Typ6"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

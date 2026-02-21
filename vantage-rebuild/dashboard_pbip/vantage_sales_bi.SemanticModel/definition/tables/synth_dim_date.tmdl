@@ -1,0 +1,299 @@
+/// Primary Date dimension of the semantic model, generated within the model and marked as the official Date table.
+/// Provides a flexible and extensible calendar structure used for time-intelligence calculations, dynamic period parameters, and advanced date-based reporting.
+/// Designed to be self-maintained within the semantic layer, allowing independent extension and customization without reliance on DWH engineering changes.
+table synth_dim_date
+	lineageTag: 6951656d-2b48-4257-a053-fe1e04c3ae7a
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: Short Date
+		lineageTag: ad76cbcf-a303-43fe-b1e4-903d21404658
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 56d8ce6f-cc23-4e8a-ada5-8764c12c9bac
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Year'
+		formatString: Short Date
+		lineageTag: e0ab4b7c-ef86-4536-8738-d843e4946a80
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Start of Year]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'End of Year'
+		formatString: Short Date
+		lineageTag: 11d2d21a-4167-4732-b98d-bbee57732c7f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [End of Year]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Month
+		formatString: 0
+		lineageTag: b7640f02-e875-4469-a69a-5c027f721111
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Month'
+		formatString: Long Date
+		lineageTag: f99764c1-a947-47a1-be8d-aaec8d52ecea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Start of Month]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'End of Month'
+		formatString: Long Date
+		lineageTag: 38af8bc6-f496-495a-abcb-268218016a52
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [End of Month]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Days in Month'
+		formatString: 0
+		lineageTag: bd984503-6d85-473d-a609-651a67839b55
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Days in Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Number'
+		lineageTag: d014f904-81eb-446c-afa0-c7e8d2826c02
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Name'
+		lineageTag: c481b374-4959-416f-805c-c31e1c5c8f48
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		formatString: 0
+		lineageTag: 343df940-cb39-478b-9366-2ecba2b9ceb3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Isoday
+		lineageTag: 28f4c38a-2709-46c4-8a80-f73ae666f3a6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Isoday]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		lineageTag: 94ec1fab-dfcd-4206-b9df-0e92e8662259
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name Short'
+		lineageTag: ec08700f-6ce0-4992-8526-c7f829b825c6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Name Short]
+		sortByColumn: 'Day of Week'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		formatString: 0
+		lineageTag: 2dab062c-33c7-4b77-bf44-d499315aa0fc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Week]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Year'
+		formatString: 0
+		lineageTag: e4811849-33ab-46be-ad78-b03bf4171e0c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: d43b8c09-b0b9-4a7e-98df-0b5757d56a69
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ISO Week Number'
+		formatString: 0
+		lineageTag: 0b382648-8a2e-45f1-b2e7-adfe0031d649
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ISO Week Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column KW
+		lineageTag: e452a964-2ec7-43ee-b3e4-8969c835487d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KW]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Week Number'
+		lineageTag: 7071ae4f-1120-4dc8-a6ef-726dcbac0889
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Week Number]
+		sortByColumn: 'Year Week Number Sorter'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Week Number Sorter'
+		formatString: 0
+		lineageTag: e24f1de8-cc01-4bc3-8e21-13f83ad83ec7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Week Number Sorter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year (MM/YY)'
+		lineageTag: 379a0025-6fca-47a7-952f-941e8839f526
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Year (MM/YY)]
+		sortByColumn: 'Month Year Sorter'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year Sorter'
+		formatString: 0
+		lineageTag: cf2bae6a-faa8-4867-a7fe-f2129c1a4fbe
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Year Sorter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Number'
+		lineageTag: e50cfed7-06f3-4580-b623-e4d0f4e89fff
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Sorter'
+		formatString: 0
+		lineageTag: 9575b622-faca-4bb0-90de-b8e2bb7f29bf
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter Sorter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Year'
+		lineageTag: 9ffd6c32-d834-4f79-82e0-da82ab8a37ac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter Year]
+		sortByColumn: 'Quarter Year Sorter'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Year Sorter'
+		formatString: 0
+		lineageTag: 5f921c03-5ecb-4178-b304-02cea018be2d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter Year Sorter]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition synth_dim_date = calculated
+		mode: import
+		source = ```
+				
+				VAR MinDate =
+				    CALCULATE( MIN( fct_transactions[date_key] ), ALL( fct_transactions ) )
+				
+				VAR MaxDate =
+				    CALCULATE( MAX( fct_transactions[date_key] ), ALL( fct_transactions ) )
+				
+				RETURN
+				ADDCOLUMNS(
+				    CALENDAR(MinDate, MaxDate),
+				    "Year", YEAR([Date]),
+				    "Start of Year", DATE(YEAR([Date]), 1, 1),
+				    "End of Year", DATE(YEAR([Date]), 12, 31),
+				    "Month", MONTH([Date]),
+				    "Start of Month", DATE(YEAR([Date]), MONTH([Date]), 1),
+				    "End of Month", EOMONTH([Date], 0),
+				    "Days in Month", DATEDIFF(DATE(YEAR([Date]), MONTH([Date]), 1), EOMONTH([Date], 0), DAY) + 1,
+				    "Year Month Number", YEAR([Date]) & "-" & FORMAT(MONTH([Date]), "00"),
+				    "Year Month Name", FORMAT([Date], "YY-MMM"),
+				    "Day", DAY([Date]),
+				    "Isoday", FORMAT(([Date] - WEEKDAY([Date], 2) + 4), "dddd"),
+				    "Day Name", FORMAT([Date], "DDDD"),
+				    "Day Name Short", FORMAT([Date], "DDD"),
+				    "Day of Week", WEEKDAY([Date], 2),
+				    "Day of Year", DATEDIFF(DATE(YEAR([Date]), 1, 1), [Date], DAY) + 1,
+				    "Month Year (MM/YY)", FORMAT(MONTH([Date]), "00") & "/" & RIGHT(FORMAT(YEAR([Date]), "0000"), 2),
+				    "Month Year Sorter",YEAR([Date]) * 100 + MONTH([Date]),
+				    "Month Name", FORMAT([Date], "MMMM"),
+				    "ISO Week Number", WEEKNUM([Date] - WEEKDAY([Date], 2) + 4, 21),
+				    "KW", "KW " & FORMAT(WEEKNUM([Date] - WEEKDAY([Date], 2) + 4, 21), "00"),
+				    "Year Week Number", FORMAT(WEEKNUM([Date] - WEEKDAY([Date], 2) + 4, 21), "00") & "/" & RIGHT(FORMAT(YEAR([Date] - WEEKDAY([Date], 2) + 4), "0000"), 2),
+				    "Year Week Number Sorter", YEAR([Date] - WEEKDAY([Date], 2) + 4) * 100 + WEEKNUM([Date] - WEEKDAY([Date], 2) + 4, 21),
+				    "Quarter Number", "Q" & QUARTER([Date]),
+				    "Quarter Sorter", QUARTER([Date]),
+				    "Quarter Year", "Q" & QUARTER([Date]) & "/" & RIGHT(FORMAT(YEAR([Date]), "0000"), 2),
+				    "Quarter Year Sorter", YEAR([Date]) * 10 + QUARTER([Date])
+				)
+				
+				```
+
+	annotation PBI_Id = a8af3463a4e54a79956100a7476f01f6
+

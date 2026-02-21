@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "0ef539a3e8644eb18096",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 720,
+    "width": 1280.2105263157896,
+    "tabOrder": 56000
+  },
+  "visualGroup": {
+    "displayName": "Spacer Grid",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

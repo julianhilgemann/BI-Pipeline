@@ -1,0 +1,64 @@
+/// Budget fact table at daily grain (one row per date and shop).
+/// Contains planned gross revenue targets in EUR representing expected sales performance.
+/// Used for budget aggregation (MTD/YTD), variance analysis, and target achievement KPIs.
+/// Fully additive across time and sales units.
+table fct_budget_daily
+	lineageTag: 7025d18c-fe4e-46fe-a98f-74ec6e0d442f
+
+	column date_day
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f7cf74dc-2851-4d69-9341-43d61d01d831
+		summarizeBy: none
+		sourceColumn: date_day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shop_id
+		dataType: string
+		lineageTag: 1e7d709e-91d6-4fbc-bd02-1cadff081eda
+		summarizeBy: none
+		sourceColumn: shop_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_code
+		dataType: string
+		lineageTag: b3b89949-043f-4cf5-80ed-0b6506409885
+		summarizeBy: none
+		sourceColumn: currency_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column daily_budget_revenue
+		dataType: decimal
+		formatString: #,0.00\ "€";-#,0.00\ "€";#,0.00\ "€"
+		lineageTag: f04e62c7-b154-4dca-9c91-105dd5e96d74
+		summarizeBy: sum
+		sourceColumn: daily_budget_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	partition Budget = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents("https://raw.githubusercontent.com/julianhilgemann/BI-Pipeline/refs/heads/main/vantage-rebuild/data/export/fct_budget_daily.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    PromoteHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    #"Analysiertes Datum" = Table.TransformColumns(PromoteHeaders,{{"date_day", each Date.From(DateTimeZone.From(_)), type date}}),
+				    #"Ersetzter Wert" = Table.ReplaceValue(#"Analysiertes Datum",".",",",Replacer.ReplaceText,{"daily_budget_revenue"}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Ersetzter Wert",{{"daily_budget_revenue", Currency.Type}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

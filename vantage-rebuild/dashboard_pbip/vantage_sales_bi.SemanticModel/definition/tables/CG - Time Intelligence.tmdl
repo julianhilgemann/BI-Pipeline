@@ -1,0 +1,181 @@
+/// Implements centralized time-intelligence transformations applied to base measures, including current period, MTD/QTD/YTD, prior year equivalents, rolling 12 months, MoM and YoY comparisons, as well as absolute and percentage variances. The calculation group standardizes date-shift logic and period-over-period computations to ensure consistent evaluation context, reduce measure duplication, and enforce reusable time-based analytics across the model.
+/// 
+table 'CG - Time Intelligence'
+	lineageTag: fc8fc3a9-fb2b-4faf-b619-9629ecfb4810
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem Current = SELECTEDMEASURE()
+
+		calculationItem MTD =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESMTD(synth_dim_date[Date])
+				)
+
+		calculationItem QTD =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESQTD(synth_dim_date[Date])
+				)
+
+		calculationItem YTD =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(synth_dim_date[Date])
+				)
+
+		calculationItem PY =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+
+		calculationItem 'PY MTD' =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESMTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+
+		calculationItem 'PY QTD' =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESQTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+
+		calculationItem 'PY YTD' =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+
+		calculationItem 'Δ YoY (absolute difference)' =
+				
+				VAR _Current = SELECTEDMEASURE()
+				VAR _PY = CALCULATE(
+				    SELECTEDMEASURE(),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+				RETURN
+				IF(NOT ISBLANK(_PY), _Current - _PY, BLANK())
+
+		calculationItem 'Δ% YoY (relative change)' =
+				
+				VAR _Current = SELECTEDMEASURE()
+				VAR _PY = CALCULATE(
+				    SELECTEDMEASURE(),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+				RETURN
+				IF(NOT ISBLANK(_PY), DIVIDE(_Current - _PY, _PY, 0), BLANK())
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		calculationItem 'Δ% YoY MTD' =
+				
+				VAR _Current = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESMTD(synth_dim_date[Date])
+				)
+				VAR _PY = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESMTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+				RETURN
+				IF(NOT ISBLANK(_PY), DIVIDE(_Current - _PY, _PY, 0), BLANK())
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		calculationItem 'Δ% YoY QTD' =
+				
+				VAR _Current = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESQTD(synth_dim_date[Date])
+				)
+				VAR _PY = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESQTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+				RETURN
+				IF(NOT ISBLANK(_PY), DIVIDE(_Current - _PY, _PY, 0), BLANK())
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		calculationItem 'Δ% YoY YTD' =
+				
+				VAR _Current = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(synth_dim_date[Date])
+				)
+				VAR _PY = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESYTD(synth_dim_date[Date]),
+				    SAMEPERIODLASTYEAR(synth_dim_date[Date])
+				)
+				RETURN
+				IF(NOT ISBLANK(_PY), DIVIDE(_Current - _PY, _PY, 0), BLANK())
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		calculationItem 'MoM (Prior Month)' =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATEADD(synth_dim_date[Date], -1, MONTH)
+				)
+
+		calculationItem 'Δ% MoM' =
+				
+				VAR _Current = SELECTEDMEASURE()
+				VAR _PM = CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATEADD(synth_dim_date[Date], -1, MONTH)
+				)
+				RETURN
+				IF(NOT ISBLANK(_PM), DIVIDE(_Current - _PM, _PM, 0), BLANK())
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		calculationItem 'Rolling 12 Months' =
+				
+				CALCULATE(
+				    SELECTEDMEASURE(),
+				    DATESINPERIOD(
+				        synth_dim_date[Date],
+				        MAX(synth_dim_date[Date]),
+				        -12,
+				        MONTH
+				    )
+				)
+
+	column 'Spalte der Berechnungsgruppe'
+		dataType: string
+		lineageTag: 814435a3-1532-42df-bc80-1390248e4ea8
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinalzahl
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinalzahl
+		dataType: int64
+		formatString: 0
+		lineageTag: 71040ebe-68e8-463c-8bd3-eb1f4614c709
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

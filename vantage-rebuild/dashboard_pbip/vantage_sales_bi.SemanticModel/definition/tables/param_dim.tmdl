@@ -1,0 +1,48 @@
+table param_dim
+	lineageTag: 171fa834-eb78-47ee-815a-87efef7d45de
+
+	column Param_Dim
+		lineageTag: 5ba5a059-fcd2-43b5-88d5-1c0bccd2bea6
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Param_Dim Reihenfolge'
+
+		relatedColumnDetails
+			groupByColumn: 'Param_Dim Felder'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param_Dim Felder'
+		isHidden
+		lineageTag: 755c6d4d-63dd-4cb5-a867-68b46ef84537
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Param_Dim Reihenfolge'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param_Dim Reihenfolge'
+		isHidden
+		formatString: 0
+		lineageTag: 5389e235-2f12-4e47-815f-5ce2d34dca05
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition param_dim = calculated
+		mode: import
+		source =
+				{
+				    ("Category", NAMEOF('dim_products'[business_unit]), 0),
+				    ("Country", NAMEOF('fct_transactions'[shop_key]), 1)
+				}
+
+	annotation PBI_Id = c0be0b72782743c9ad09ba13aa31a82e
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "vantage_sales_bi"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "951ff7b2-a1e7-45e2-8270-7a2f9f32ffc1"
+  }
+}

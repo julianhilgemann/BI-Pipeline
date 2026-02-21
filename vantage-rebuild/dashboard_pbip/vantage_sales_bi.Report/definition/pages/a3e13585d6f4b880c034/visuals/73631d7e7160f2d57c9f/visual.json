@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "73631d7e7160f2d57c9f",
+  "position": {
+    "x": 0,
+    "y": 704,
+    "z": 0,
+    "height": 16,
+    "width": 1280.2105263157896,
+    "tabOrder": 0
+  },
+  "visualGroup": {
+    "displayName": "Bottom Margin",
+    "groupMode": "ScaleMode"
+  },
+  "parentGroupName": "0ef539a3e8644eb18096"
+}

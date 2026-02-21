@@ -1,0 +1,143 @@
+table dax_meta
+	lineageTag: 33a27d8a-e7c4-4fbc-8a1e-4fdf8f648f67
+
+	column ID
+		formatString: 0
+		lineageTag: bb9cf8b3-715e-4a2f-9ca5-6f605693359a
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: [ID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		lineageTag: 0f765791-736c-483a-a2fd-896beb776279
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Table
+		lineageTag: d7049020-b40f-4f36-88cf-c1629dde7649
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Table]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		lineageTag: f9c6e262-2532-404c-8eac-465a68370897
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Description]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataType
+		lineageTag: ecdb044a-8011-4f16-9ecc-7d5d5f434e09
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DataType]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Expression
+		lineageTag: 800ae272-a34e-40f1-9b7d-da7a6df7f8ea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Expression]
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormatString
+		lineageTag: 66a658bb-0ccf-43f1-8efa-10d9797b2289
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [FormatString]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6c6c10b0-4da2-4d6c-bb09-76d009208782
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IsHidden]
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		lineageTag: 5decc02f-b308-4fe0-b68f-e2cc46f9a6b5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [State]
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPIID
+		formatString: 0
+		lineageTag: 7b32a237-9563-4748-846b-308c8cc919c4
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: [KPIID]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSimpleMeasure
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 96cf7960-4075-4de6-8793-a1747d47d2a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [IsSimpleMeasure]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DisplayFolder
+		lineageTag: 5cb7bb38-1316-4a58-a3f9-4f8efd9605f1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DisplayFolder]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DetailRowsDefinition
+		lineageTag: f0014e16-42f2-4b7e-ad5b-668798246697
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DetailRowsDefinition]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataCategory
+		lineageTag: 1fd6f215-5c21-42fe-a737-310346e0e123
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DataCategory]
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormatStringDefinition
+		lineageTag: 52548780-c23c-421f-b0a8-5cf27b755699
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [FormatStringDefinition]
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineageTag
+		lineageTag: 2e2faad2-f23e-488d-bbd3-dd4f6a15b220
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [LineageTag]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dax_meta = calculated
+		mode: import
+		source = ```
+				INFO.VIEW.MEASURES() 
+				```
+
+	annotation PBI_Id = baa177dfb4d6463f9bec0591a49c7388
+

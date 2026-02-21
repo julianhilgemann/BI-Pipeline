@@ -25,3 +25,6 @@ output/
 # IDE
 .vscode/
 .idea/
+
+# Power BI
+.pbi/

@@ -1,0 +1,32 @@
+model Model
+	culture: de-DE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: de-DE
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["_Measuretable","dim_products","fct_budget_daily","fct_transactions","kpi_validation"]
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table dim_products
+ref table fct_budget_daily
+ref table fct_transactions
+ref table dax_meta
+ref table _Measuretable
+ref table kpi_validation
+ref table param_kpis
+ref table param_dim
+ref table chart_waterfall_categories
+ref table synth_dim_date
+ref table param_date
+ref table 'CG - Time Intelligence'
+
+ref cultureInfo de-DE
+
