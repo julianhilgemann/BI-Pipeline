@@ -14,6 +14,16 @@ The core of this project is the top-level analytical dashboard, designed to answ
 
 ![Vantage Dashboard](vantage-rebuild/viz/vantage_dashboard_main.png)
 
+This project is a high level reporting use case for strategic insights. The dashboard is a part of a typical BI ecosystem, where in a company there are various distinct functional domains with varying requirements.
+
+![Vantage Architecture](vantage-rebuild/viz/vantage_dashboard_bi_architecture.png)
+
+Git Version Control serves as the code management layer that syncs with the Fabric Environment, where different workspaces are being used to develop and version control the data assets, ensuring changes in the semantic model are only valid with a review. Following this workflow, assets are built in the (1) Dev Workspace, promoted to the (2) Test Workspace, and finally deployed into the (3) Prod workspace.
+
+![Vantage Workspaces](vantage-rebuild/viz/vantage_dashboard_bi_workspaces.png)
+
+Users consume only the data from the Prod layer, which has been vetted; in that layer, Row-Level Security (RLS) is applied to the semantic model to manage access rights.
+
 ### UI / UX / DX
 To ensure fast development and maintain clear structures, we utilize a 16px Power BI grid aligned with a classic 4px grid system. This approach provides a solid foundation for optimal spacing and layout, enhancing both the developer experience (DX) and the end-user experience (UX).
 
