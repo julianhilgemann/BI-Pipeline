@@ -7,6 +7,15 @@
 ## 1. Project Overview
 This project acts as the "Single Source of Truth" for Vantage Alpin's financial reporting. It replaces legacy PDF reports with a dynamic Modern Data Stack (MDS). By simulating a realistic e-commerce environment, transforming raw stochastic data into a clean Star Schema, and serving it via a robust dimensional model, it delivers a highly scalable and interactive Business Intelligence experience.
 
+![Vantage Dashboard High Level](vantage-rebuild/viz/vantage_dashboard_high_level.png)
+
+The pipeline handles the end-to-end process from stochastically simulated data to dimensional data warehousing and BI reporting, consisting of four main phases:
+
+(1) Synthetic Data generation in Python 
+(2) Data Storage and Warehousing using DuckDB 
+(3) Data Transformations using dbt and 
+(4) Reporting using Power BI.
+
 ## 2. Business Intelligence (Power BI)
 
 ### Dashboard Overview
