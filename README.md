@@ -38,6 +38,9 @@ To ensure fast development and maintain clear structures, we utilize a 16px Powe
 
 ![Vantage Wireframe](vantage-rebuild/viz/vantage_wireframe.png)
 
+The dashboard is structured so the most important information is always at the top. Slicers sit in the header row to establish context — unit, region, and time period — before the user reads anything else. KPI cards follow immediately beneath, giving headline numbers upfront rather than burying them in charts.
+The visual layout guides the eye from top-left to bottom-right naturally, so Performance and Profit per Unit — the two most strategically relevant visuals — land at the beginning and end of that path. The KPI row works left to right by importance, with Revenue and COGS leading and supporting metrics trailing toward the right.
+
 ### Data Model
 We prioritize maintainability over complexity. The data model follows a strict **Star Schema** with a clear separation of facts and dimensions. We enforce a "No Calculated Columns" policy to ensure optimal compression and performance. For convenience and interactivity, we used a synthetic `dim_date` table that can be accessed [here](https://github.com/julianhilgemann/BI-Pipeline/blob/main/vantage-rebuild/dashboard_pbip/vantage_sales_bi.SemanticModel/definition/tables/synth_dim_date.tmdl).
 
@@ -102,6 +105,8 @@ Example: `Gross Revenue MTD Δ% YoY` → Gross Revenue, Month-to-Date, Year-over
 **Waterfall sign convention** — Cost measures in `99 - Waterfall Helpers` are pre-multiplied by `-1` so waterfall visuals render correctly without per-visual sign logic.
 
 **All time intelligence uses the synthetic date table** (`synth_dim_date[Date]`) — a custom-built date dimension with German/Austrian/Swiss holiday flags and ISO fiscal periods, ensuring all `DATEADD`, `SAMEPERIODLASTYEAR`, and `TOTALMTD/QTD/YTD` functions operate against a single governed calendar.
+
+The semantic model uses Field Parameters extensively to increase dashboard interactivity without multiplying report pages. param_kpis lets users switch between key metrics — Revenue, Contribution Margin, AOV, and others — through a single slicer, keeping the layout focused while exposing the full breadth of the model. param_date controls time granularity dynamically, allowing the same trend visuals to switch between Day, Week, Month, and Quarter without any filter logic on the report layer. This approach keeps the model's complexity internal while the end user experiences a clean, flexible interface — which is the practical definition of a well-designed semantic layer.
 
 #### Scalability & Metadata
 
