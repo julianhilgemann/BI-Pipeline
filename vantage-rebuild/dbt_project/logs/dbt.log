@@ -14538,3 +14538,246 @@ alter table "vantage"."main"."fct_budget_daily__dbt_tmp" rename to "fct_budget_d
 [0m18:29:33.926711 [debug] [MainThread]: Command `dbt run` succeeded at 18:29:33.926665 after 1.53 seconds
 [0m18:29:33.926903 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11864f390>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11836d890>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x100dae310>]}
 [0m18:29:33.927080 [debug] [MainThread]: Flushing usage events
+[0m03:36:52.920352 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1065a0ad0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106612ed0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106613510>]}
+
+
+============================== 03:36:52.923421 | 3b9338c6-f62f-4b70-a805-46e947610b6d ==============================
+[0m03:36:52.923421 [info ] [MainThread]: Running with dbt=1.8.0
+[0m03:36:52.923741 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'version_check': 'True', 'log_path': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project/logs', 'fail_fast': 'False', 'profiles_dir': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'static_parser': 'True', 'log_format': 'default', 'target_path': 'None', 'invocation_command': 'dbt docs generate', 'send_anonymous_usage_stats': 'True'}
+[0m03:36:53.176244 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106665150>]}
+[0m03:36:53.199300 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1032eb790>]}
+[0m03:36:53.200823 [info ] [MainThread]: Registered adapter: duckdb=1.10.0
+[0m03:36:53.319307 [debug] [MainThread]: checksum: dbb12d416fdb55e3665e4828703bbedf40c5c90ed7ca6ff39bbbfb29b12b0a92, vars: {}, profile: , target: , version: 1.8.0
+[0m03:36:53.399043 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m03:36:53.399294 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m03:36:53.428142 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106d78110>]}
+[0m03:36:53.440036 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106f7bfd0>]}
+[0m03:36:53.440337 [info ] [MainThread]: Found 16 models, 1 snapshot, 1 test, 1 seed, 5 sources, 438 macros
+[0m03:36:53.440520 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106a3ad90>]}
+[0m03:36:53.441696 [info ] [MainThread]: 
+[0m03:36:53.441982 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m03:36:53.444447 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vantage_main'
+[0m03:36:53.479913 [debug] [ThreadPool]: Using duckdb connection "list_vantage_main"
+[0m03:36:53.480174 [debug] [ThreadPool]: On list_vantage_main: BEGIN
+[0m03:36:53.480315 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:36:53.563411 [debug] [ThreadPool]: SQL status: OK in 0.083 seconds
+[0m03:36:53.563746 [debug] [ThreadPool]: Using duckdb connection "list_vantage_main"
+[0m03:36:53.563916 [debug] [ThreadPool]: On list_vantage_main: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "list_vantage_main"} */
+select
+      'vantage' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'vantage'
+  
+[0m03:36:53.576690 [debug] [ThreadPool]: SQL status: OK in 0.013 seconds
+[0m03:36:53.577882 [debug] [ThreadPool]: On list_vantage_main: ROLLBACK
+[0m03:36:53.578612 [debug] [ThreadPool]: Failed to rollback 'list_vantage_main'
+[0m03:36:53.578761 [debug] [ThreadPool]: On list_vantage_main: Close
+[0m03:36:53.579052 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_vantage_main, now list_vantage_snapshots)
+[0m03:36:53.581473 [debug] [ThreadPool]: Using duckdb connection "list_vantage_snapshots"
+[0m03:36:53.581633 [debug] [ThreadPool]: On list_vantage_snapshots: BEGIN
+[0m03:36:53.581761 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m03:36:53.582160 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m03:36:53.582294 [debug] [ThreadPool]: Using duckdb connection "list_vantage_snapshots"
+[0m03:36:53.582432 [debug] [ThreadPool]: On list_vantage_snapshots: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "list_vantage_snapshots"} */
+select
+      'vantage' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'snapshots'
+    and lower(table_catalog) = 'vantage'
+  
+[0m03:36:53.584441 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m03:36:53.585101 [debug] [ThreadPool]: On list_vantage_snapshots: ROLLBACK
+[0m03:36:53.585355 [debug] [ThreadPool]: Failed to rollback 'list_vantage_snapshots'
+[0m03:36:53.585481 [debug] [ThreadPool]: On list_vantage_snapshots: Close
+[0m03:36:53.585804 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '3b9338c6-f62f-4b70-a805-46e947610b6d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106a46c50>]}
+[0m03:36:53.586057 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m03:36:53.586215 [info ] [MainThread]: 
+[0m03:36:53.587509 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.dim_calendar
+[0m03:36:53.587703 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_vantage_snapshots, now model.vantage_rebuild.dim_calendar)
+[0m03:36:53.587864 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.dim_calendar
+[0m03:36:53.591351 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.dim_calendar"
+[0m03:36:53.591938 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.dim_calendar
+[0m03:36:53.592249 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.dim_calendar
+[0m03:36:53.592425 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.stg_budget
+[0m03:36:53.592620 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.dim_calendar, now model.vantage_rebuild.stg_budget)
+[0m03:36:53.592873 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.stg_budget
+[0m03:36:53.594300 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.stg_budget"
+[0m03:36:53.594645 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.stg_budget
+[0m03:36:53.594947 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.stg_budget
+[0m03:36:53.595126 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.stg_line_items
+[0m03:36:53.595374 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.stg_budget, now model.vantage_rebuild.stg_line_items)
+[0m03:36:53.595528 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.stg_line_items
+[0m03:36:53.596817 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.stg_line_items"
+[0m03:36:53.597675 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.stg_line_items
+[0m03:36:53.597961 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.stg_line_items
+[0m03:36:53.598136 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.stg_marketing
+[0m03:36:53.598329 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.stg_line_items, now model.vantage_rebuild.stg_marketing)
+[0m03:36:53.598483 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.stg_marketing
+[0m03:36:53.599865 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.stg_marketing"
+[0m03:36:53.600202 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.stg_marketing
+[0m03:36:53.600488 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.stg_marketing
+[0m03:36:53.600662 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.stg_orders
+[0m03:36:53.600846 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.stg_marketing, now model.vantage_rebuild.stg_orders)
+[0m03:36:53.600999 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.stg_orders
+[0m03:36:53.602334 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.stg_orders"
+[0m03:36:53.602623 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.stg_orders
+[0m03:36:53.602907 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.stg_orders
+[0m03:36:53.603093 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.stg_products
+[0m03:36:53.603384 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.stg_orders, now model.vantage_rebuild.stg_products)
+[0m03:36:53.603575 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.stg_products
+[0m03:36:53.606207 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.stg_products"
+[0m03:36:53.606683 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.stg_products
+[0m03:36:53.607064 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.stg_products
+[0m03:36:53.607267 [debug] [Thread-1 (]: Began running node seed.vantage_rebuild.exchange_rates
+[0m03:36:53.607599 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.stg_products, now seed.vantage_rebuild.exchange_rates)
+[0m03:36:53.607783 [debug] [Thread-1 (]: Began compiling node seed.vantage_rebuild.exchange_rates
+[0m03:36:53.608738 [debug] [Thread-1 (]: Began executing node seed.vantage_rebuild.exchange_rates
+[0m03:36:53.609009 [debug] [Thread-1 (]: Finished running node seed.vantage_rebuild.exchange_rates
+[0m03:36:53.609193 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.fct_budget_daily
+[0m03:36:53.609423 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly seed.vantage_rebuild.exchange_rates, now model.vantage_rebuild.fct_budget_daily)
+[0m03:36:53.609613 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.fct_budget_daily
+[0m03:36:53.611020 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.fct_budget_daily"
+[0m03:36:53.611488 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.fct_budget_daily
+[0m03:36:53.611765 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.fct_budget_daily
+[0m03:36:53.611935 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.int_logistics_costs
+[0m03:36:53.612119 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.fct_budget_daily, now model.vantage_rebuild.int_logistics_costs)
+[0m03:36:53.612280 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.int_logistics_costs
+[0m03:36:53.613665 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.int_logistics_costs"
+[0m03:36:53.614071 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.int_logistics_costs
+[0m03:36:53.614246 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.dim_products
+[0m03:36:53.614425 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.int_logistics_costs, now model.vantage_rebuild.dim_products)
+[0m03:36:53.614584 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.dim_products
+[0m03:36:53.615842 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.dim_products"
+[0m03:36:53.616179 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.dim_products
+[0m03:36:53.616434 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.dim_products
+[0m03:36:53.616612 [debug] [Thread-1 (]: Began running node snapshot.vantage_rebuild.snap_product
+[0m03:36:53.616785 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.dim_products, now snapshot.vantage_rebuild.snap_product)
+[0m03:36:53.616937 [debug] [Thread-1 (]: Began compiling node snapshot.vantage_rebuild.snap_product
+[0m03:36:53.618421 [debug] [Thread-1 (]: Began executing node snapshot.vantage_rebuild.snap_product
+[0m03:36:53.618699 [debug] [Thread-1 (]: Finished running node snapshot.vantage_rebuild.snap_product
+[0m03:36:53.618883 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.int_exchange_rates
+[0m03:36:53.619129 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly snapshot.vantage_rebuild.snap_product, now model.vantage_rebuild.int_exchange_rates)
+[0m03:36:53.619291 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.int_exchange_rates
+[0m03:36:53.620458 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.int_exchange_rates"
+[0m03:36:53.620811 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.int_exchange_rates
+[0m03:36:53.620977 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.dim_product_current
+[0m03:36:53.621180 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.int_exchange_rates, now model.vantage_rebuild.dim_product_current)
+[0m03:36:53.621335 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.dim_product_current
+[0m03:36:53.622927 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.dim_product_current"
+[0m03:36:53.624119 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.dim_product_current
+[0m03:36:53.624485 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.dim_product_current
+[0m03:36:53.624696 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.dim_product_history
+[0m03:36:53.624903 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.dim_product_current, now model.vantage_rebuild.dim_product_history)
+[0m03:36:53.625070 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.dim_product_history
+[0m03:36:53.626612 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.dim_product_history"
+[0m03:36:53.626969 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.dim_product_history
+[0m03:36:53.627284 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.dim_product_history
+[0m03:36:53.627471 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.fct_orders
+[0m03:36:53.627664 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.dim_product_history, now model.vantage_rebuild.fct_orders)
+[0m03:36:53.627824 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.fct_orders
+[0m03:36:53.629512 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.fct_orders"
+[0m03:36:53.629876 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.fct_orders
+[0m03:36:53.630177 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.fct_orders
+[0m03:36:53.630373 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.int_orders_standardized
+[0m03:36:53.630595 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.fct_orders, now model.vantage_rebuild.int_orders_standardized)
+[0m03:36:53.630757 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.int_orders_standardized
+[0m03:36:53.639096 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.int_orders_standardized"
+[0m03:36:53.640120 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.int_orders_standardized
+[0m03:36:53.640644 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.int_marketing_allocated
+[0m03:36:53.640951 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.int_orders_standardized, now model.vantage_rebuild.int_marketing_allocated)
+[0m03:36:53.641200 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.int_marketing_allocated
+[0m03:36:53.651767 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.int_marketing_allocated"
+[0m03:36:53.652549 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.int_marketing_allocated
+[0m03:36:53.653007 [debug] [Thread-1 (]: Began running node model.vantage_rebuild.fct_transactions
+[0m03:36:53.653293 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.int_marketing_allocated, now model.vantage_rebuild.fct_transactions)
+[0m03:36:53.653463 [debug] [Thread-1 (]: Began compiling node model.vantage_rebuild.fct_transactions
+[0m03:36:53.662192 [debug] [Thread-1 (]: Writing injected SQL for node "model.vantage_rebuild.fct_transactions"
+[0m03:36:53.662939 [debug] [Thread-1 (]: Began executing node model.vantage_rebuild.fct_transactions
+[0m03:36:53.663311 [debug] [Thread-1 (]: Finished running node model.vantage_rebuild.fct_transactions
+[0m03:36:53.663823 [debug] [Thread-1 (]: Began running node test.vantage_rebuild.assert_marketing_fully_allocated
+[0m03:36:53.664066 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vantage_rebuild.fct_transactions, now test.vantage_rebuild.assert_marketing_fully_allocated)
+[0m03:36:53.664278 [debug] [Thread-1 (]: Began compiling node test.vantage_rebuild.assert_marketing_fully_allocated
+[0m03:36:53.666482 [debug] [Thread-1 (]: Writing injected SQL for node "test.vantage_rebuild.assert_marketing_fully_allocated"
+[0m03:36:53.666979 [debug] [Thread-1 (]: Began executing node test.vantage_rebuild.assert_marketing_fully_allocated
+[0m03:36:53.667293 [debug] [Thread-1 (]: Finished running node test.vantage_rebuild.assert_marketing_fully_allocated
+[0m03:36:53.667773 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m03:36:53.667916 [debug] [MainThread]: Connection 'test.vantage_rebuild.assert_marketing_fully_allocated' was properly closed.
+[0m03:36:53.668852 [debug] [MainThread]: Command end result
+[0m03:36:53.774385 [debug] [MainThread]: Acquiring new duckdb connection 'generate_catalog'
+[0m03:36:53.774612 [info ] [MainThread]: Building catalog
+[0m03:36:53.780154 [debug] [ThreadPool]: Acquiring new duckdb connection 'vantage.information_schema'
+[0m03:36:53.783985 [debug] [ThreadPool]: Using duckdb connection "vantage.information_schema"
+[0m03:36:53.784223 [debug] [ThreadPool]: On vantage.information_schema: BEGIN
+[0m03:36:53.784370 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m03:36:53.784747 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m03:36:53.784887 [debug] [ThreadPool]: Using duckdb connection "vantage.information_schema"
+[0m03:36:53.785053 [debug] [ThreadPool]: On vantage.information_schema: /* {"app": "dbt", "dbt_version": "1.8.0", "profile_name": "duckdb_local", "target_name": "dev", "connection_name": "vantage.information_schema"} */
+with relations AS (
+      select
+        t.table_name
+        , t.database_name
+        , t.schema_name
+        , 'BASE TABLE' as table_type
+        , t.comment as table_comment
+      from duckdb_tables() t
+      WHERE t.database_name = 'vantage'
+      UNION ALL
+      SELECT v.view_name as table_name
+      , v.database_name
+      , v.schema_name
+      , 'VIEW' as table_type
+      , v.comment as table_comment
+      from duckdb_views() v
+      WHERE v.database_name = 'vantage'
+    )
+    select
+        'vantage' as table_database,
+        r.schema_name as table_schema,
+        r.table_name,
+        r.table_type,
+        r.table_comment,
+        c.column_name,
+        c.column_index as column_index,
+        c.data_type as column_type,
+        c.comment as column_comment,
+        NULL as table_owner
+    FROM relations r JOIN duckdb_columns() c ON r.schema_name = c.schema_name AND r.table_name = c.table_name
+    WHERE (upper(r.schema_name) = upper('main') or upper(r.schema_name) = upper('snapshots'))
+    ORDER BY
+        r.schema_name,
+        r.table_name,
+        c.column_index
+[0m03:36:53.792537 [debug] [ThreadPool]: SQL status: OK in 0.007 seconds
+[0m03:36:53.798783 [debug] [ThreadPool]: On vantage.information_schema: ROLLBACK
+[0m03:36:53.799145 [debug] [ThreadPool]: Failed to rollback 'vantage.information_schema'
+[0m03:36:53.799305 [debug] [ThreadPool]: On vantage.information_schema: Close
+[0m03:36:53.822885 [info ] [MainThread]: Catalog written to /Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project/target/catalog.json
+[0m03:36:53.854301 [debug] [MainThread]: Resource report: {"command_name": "generate", "command_success": true, "command_wall_clock_time": 0.97083557, "process_user_time": 1.189867, "process_kernel_time": 0.303774, "process_mem_max_rss": "154763264", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m03:36:53.854908 [debug] [MainThread]: Command `dbt docs generate` succeeded at 03:36:53.854791 after 0.97 seconds
+[0m03:36:53.855212 [debug] [MainThread]: Connection 'generate_catalog' was properly closed.
+[0m03:36:53.855355 [debug] [MainThread]: Connection 'vantage.information_schema' was properly closed.
+[0m03:36:53.855529 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1009b1a50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x100a4c050>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106cc1d50>]}
+[0m03:36:53.855724 [debug] [MainThread]: Flushing usage events
+[0m03:39:36.420068 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105adc650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105ad5750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105b4f110>]}
+
+
+============================== 03:39:36.423265 | edbac060-f203-4fec-962a-e2fc8ee8cadf ==============================
+[0m03:39:36.423265 [info ] [MainThread]: Running with dbt=1.8.0
+[0m03:39:36.423647 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project', 'version_check': 'True', 'debug': 'False', 'log_path': '/Users/admin/Desktop/BI Pipeline/vantage-rebuild/dbt_project/logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt docs serve --port 8080', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m03:39:36.670270 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'edbac060-f203-4fec-962a-e2fc8ee8cadf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105bb1c90>]}
+[0m03:39:36.693861 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'edbac060-f203-4fec-962a-e2fc8ee8cadf', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x103197610>]}
