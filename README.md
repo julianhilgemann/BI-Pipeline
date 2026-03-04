@@ -177,6 +177,8 @@ $$ \lambda_t = \text{Trend}(t) \times \text{Season}_{week}(t) \times \text{Seaso
 ## 5. Analytics Engineering: The Logic Layer (`/dbt_project`)
 We follow a strict **Kimball** dimensional modeling methodology.
 
+![Kimball Architecture & ERD](vantage-rebuild/viz/vantage_dashboard_kimball.png)
+
 ### A. Key Transformations
 *   **Marketing Allocation (`int_marketing_allocated`)**: 
     *   **Problem:** Marketing spend is aggregated daily (Facebook/Google Ads), but we need to analyze profitability at the *Product* level ("Contribution Margin 2").
