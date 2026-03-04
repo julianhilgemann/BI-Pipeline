@@ -157,6 +157,8 @@ flowchart LR
 ## 4. Data Generation: Controlled Stochasticity
 We generate realistic transaction data using statistical modeling rather than simple random sampling. This ensures the data exhibits the complex patterns found in real e-commerce businesses.
 
+![Data Generating Process](vantage-rebuild/viz/vantage_dashboard_dgp.png)
+
 ### A. Temporal Dynamics (The "When")
 We use a **Non-Homogeneous Poisson Process (NHPP)** to model customer demand. The daily order volume $\lambda_t$ is driven by a composite function:
 $$ \lambda_t = \text{Trend}(t) \times \text{Season}_{week}(t) \times \text{Season}_{month}(t) \times \text{Events}(t) $$
@@ -166,17 +168,9 @@ $$ \lambda_t = \text{Trend}(t) \times \text{Season}_{week}(t) \times \text{Seaso
 *   **Monthly:** "Payday Effect" (End-of-month spike).
 *   **Events:** Black Week (3.0x), Summer Sale (1.5x), Christmas Rush (1.8x).
 
-![Seasonality Curve](vantage-rebuild/viz/seasonality_curve.png)
-*(Figure 1: The generated demand curve showing the interaction of seasonal components)*
-
 ### B. Product Economics (The "What")
 *   **Pricing:** Follows a **Log-Normal Distribution** ($\mu=4.5, \sigma=0.6$), creating a realistic spread of low-value items and occasional high-value equipment.
 *   **Affinity:** Product popularity follows a **Pareto Distribution (Power Law)**. Roughly 20% of the SKUs drive 80% of the volume ("Bestsellers"), while the "Long Tail" caters to niche needs.
-
-<div style="display: flex; gap: 10px;">
-  <img src="vantage-rebuild/viz/price_distribution.png" width="48%" />
-  <img src="vantage-rebuild/viz/pareto_affinity.png" width="48%" />
-</div>
 
 ## 5. Analytics Engineering: The Logic Layer (`/dbt_project`)
 We follow a strict **Kimball** dimensional modeling methodology.
