@@ -3,13 +3,8 @@
 with source as (
     select sum(marketing_spend_local) as total_spend
     from {{ ref('stg_marketing') }}
-    -- Convert to EUR if mixed currencies? For MVP we assume input was normalized or single currency per shop.
-    -- Generator output had 'EUR' for DE/AT and 'CHF' for CH.
-    -- Wait, if CH spend is CHF, and we allocated based on EUR revenue...
-    -- The `int_marketing_allocated` took `marketing_spend_local / total_daily_revenue_eur`.
-    -- This implies we treated local spend as EUR! (Which is a bug if spend was CHF).
-    -- However, for the TEST, we just want to ensure the Distribution Math worked (i.e. we didn't lose money in rounding).
-    -- So we compare Sum(Spend) vs Sum(Allocated).
+    -- This test verifies the distribution math by ensuring that the sum of local spend matches the sum of allocated cost.
+    -- It checks that no spend is lost or duplicated due to rounding errors during the allocation process.
 ),
 
 fact as (

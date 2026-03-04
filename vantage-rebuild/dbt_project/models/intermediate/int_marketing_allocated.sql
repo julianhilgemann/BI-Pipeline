@@ -22,11 +22,8 @@ daily_spend as (
     select
         date_day,
         shop_id,
-        -- Assume marketing spend in stg is already standardized or matches shop currency
-        -- If shop_id=CH, marketing is likely in CHF. We should convert it to EUR too if generating strictly in EUR.
-        -- Usage: For simplicity, let's assume raw_marketing_daily is in EUR or close enough for this MVP 
-        -- (Since shop_id=CH has base currency CHF, but marketing might be global). 
-        -- Actually, generator output has 'currency' col.
+        -- Note: For this MVP, marketing_spend_local is used directly for allocation 
+        -- against EUR revenue to determine the allocation factor.
         marketing_spend_local
     from marketing_daily
 ),

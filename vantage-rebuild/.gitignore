@@ -28,3 +28,6 @@ output/
 
 # Power BI
 .pbi/
+
+# Agent
+.agent/
