@@ -49,7 +49,11 @@ We prioritize maintainability over complexity. The data model follows a strict *
 
 ### Semantic Model & Measure Architecture
 
-Our DAX engineering strategy is driven by efficiency and scalability. All measures are centralized in a dedicated `_Measuretable` (no physical data) and organized logically into folders and subfolders that reflect a layered calculation dependency chain.
+Our DAX engineering strategy is driven by efficiency and scalability.
+
+![DAX Taxonomy](vantage-rebuild/viz/vantage_dashboard_dax_taxonomy.png)
+
+All measures are centralized in a dedicated `_Measuretable` (no physical data) and organized logically into folders and subfolders that reflect a layered calculation dependency chain.
 
 #### Folder Taxonomy
 
