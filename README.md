@@ -123,38 +123,7 @@ We utilize best practices for measure logic, prioritizing scalability in mind. *
 
 Metadata is added everywhere so that it is always clear what the measures actually do, what the tables mean, and so on. This clean metadata infrastructure enables a **Model inherent KPI Framework** with an interactive glossary as well as interactive tool-tips and definitions, ensuring the self-documenting semantic layer is completely transparent for any analyst.
 
-## 3. Architecture
-
-```mermaid
-flowchart LR
-    subgraph Gen ["Data Generation (Python)"]
-    Py[NHPP Simulation]
-    CSV[(Raw CSVs)]
-    end
-    subgraph WH ["Data Warehouse (DuckDB)"]
-    Duck[DuckDB]
-    end
-    subgraph Trans ["Transformation (dbt)"]
-    dbt[dbt Core]
-    Stg[Staging]
-    Int[Intermediate]
-    Mart[Marts]
-    end
-    subgraph BI ["Analytics (Power BI)"]
-    Exp[Parquet Export]
-    PBI[Dashboard]
-    end
-    Py --> CSV
-    CSV --> Duck
-    Duck <--> dbt
-    dbt -- SQL --> Stg
-    Stg --> Int
-    Int --> Mart
-    Mart --> Exp
-    Exp --> PBI
-```
-
-## 4. Data Generation: Controlled Stochasticity
+## 3. Data Generation: Controlled Stochasticity
 We generate realistic transaction data using statistical modeling rather than simple random sampling. This ensures the data exhibits the complex patterns found in real e-commerce businesses.
 
 ![Data Generating Process](vantage-rebuild/viz/vantage_dashboard_dgp.png)
@@ -172,7 +141,7 @@ $$ \lambda_t = \text{Trend}(t) \times \text{Season}_{week}(t) \times \text{Seaso
 *   **Pricing:** Follows a **Log-Normal Distribution** ($\mu=4.5, \sigma=0.6$), creating a realistic spread of low-value items and occasional high-value equipment.
 *   **Affinity:** Product popularity follows a **Pareto Distribution (Power Law)**. Roughly 20% of the SKUs drive 80% of the volume ("Bestsellers"), while the "Long Tail" caters to niche needs.
 
-## 5. Analytics Engineering: The Logic Layer (`/dbt_project`)
+## 4. Analytics Engineering: The Logic Layer (`/dbt_project`)
 We follow a strict **Kimball** dimensional modeling methodology.
 
 ![Kimball Architecture & ERD](vantage-rebuild/viz/vantage_dashboard_kimball.png)
@@ -246,6 +215,21 @@ flowchart LR
     model_vantage_rebuild_stg_marketing --> model_vantage_rebuild_int_marketing_allocated
     model_vantage_rebuild_stg_products --> snapshot_vantage_rebuild_snap_product
 ```
+
+## 5. Repo Navigation
+
+If you want to dig deeper into the codebase, here is a high-level orientation of where everything lives and how data flows through the pipeline:
+
+1. **Synthetic Data Generation (`data_generation/`)**: Python scripts simulate e-commerce events and dump the raw outputs as `.csv` files into a local output directory.
+2. **Data Warehouse Load (`data/` & `src/`)**: A Python script (`load_duckdb.py`) ingests these raw CSVs into a local DuckDB database (`data/vantage.duckdb`), which serves as our data warehouse.
+3. **Data Transformation (`dbt_project/`)**: dbt connects to the DuckDB database. It reads the raw tables and applies SQL transformations:
+   - `models/staging`: Basic type casting and renaming.
+   - `models/intermediate`: Complex business logic, allocations, and currency normalizations.
+   - `models/marts`: Final Star Schema dimension (`dim_*.sql`) and fact (`fct_*.sql`) tables.
+4. **Export & Serving (`src/export_bi_tables.py`)**: The final dbt marts are exported back out as optimized Parquet files.
+5. **Business Intelligence (`dashboard_pbip/`)**: Power BI connects to these Parquet files. This folder contains the Git-versioned representation of the report and the Semantic Model (`.tmdl` files) utilizing DAX for final aggregations.
+
+*Bonus:* The **`viz/`** folder contains the architecture diagrams and charts utilized in this documentation.
 
 ## 6. How to Run (Quick Start)
 
