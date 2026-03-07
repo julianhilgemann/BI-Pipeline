@@ -5,6 +5,20 @@
 ![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 
+<br>
+
+### 📺 Watch the Video Walkthrough
+
+Prefer a visual overview? Check out the **[project walkthrough on YouTube](https://www.youtube.com/watch?v=QGwda9UsQHg)** for a comprehensive look at the pipeline, data architecture, and the final dashboard.
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=QGwda9UsQHg">
+    <img src="vantage-rebuild/viz/vantage_dashboard_main_YT.png" alt="Vantage Dashboard Project Walkthrough on YouTube" width="600">
+  </a>
+</div>
+
+<br>
+
 ## 1. Project Overview
 This project acts as the "Single Source of Truth" for Vantage Alpin's financial reporting. It replaces legacy PDF reports with a dynamic Modern Data Stack (MDS). By simulating a realistic e-commerce environment, transforming raw stochastic data into a clean Star Schema, and serving it via a robust dimensional model, it delivers a highly scalable and interactive Business Intelligence experience.
 

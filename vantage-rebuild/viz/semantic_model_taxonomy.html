@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>Vantage Alpin — Semantic Model Taxonomy</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --card: #DCDBDC;
+    --primary: #334C65;
+    --accent: #D4723C;
+    --bg: #EEEDEE;
+    --text: #000000;
+    --text-muted: #555555;
+    --white: #FFFFFF;
+    --border: #C0BFC0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+  }
+  .page {
+    width: 1920px;
+    height: 1080px;
+    padding: 40px 56px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: baseline; gap: 14px; }
+  .header h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: var(--primary); }
+  .header .subtitle { font-weight: 400; color: var(--text-muted); font-size: 20px; }
+  .header .badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--white); background: var(--accent); padding: 7px 18px; border-radius: 4px; }
+
+  .content {
+    display: grid;
+    grid-template-columns: 520px 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px;
+    color: var(--primary); margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .num {
+    background: var(--primary); color: var(--white);
+    width: 22px; height: 22px; border-radius: 3px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+
+  .folder-tree { display: flex; flex-direction: column; gap: 8px; }
+  .folder { background: var(--card); border-radius: 6px; overflow: hidden; }
+  .folder-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px; background: var(--primary); color: var(--white);
+  }
+  .folder-header .folder-icon { font-size: 13px; opacity: 0.6; }
+  .folder-header .folder-name { font-size: 13px; font-weight: 600; flex: 1; }
+  .folder-header .folder-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.55; }
+  .folder-body { padding: 7px 14px; }
+  .subfolder-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .subfolder-row:last-child { border-bottom: none; }
+  .sf-icon { color: var(--accent); font-size: 10px; font-weight: 800; flex-shrink: 0; }
+  .sf-name { font-size: 11px; font-weight: 700; color: var(--text); white-space: nowrap; min-width: 62px; }
+  .measure-chips { display: flex; flex-wrap: wrap; gap: 3px; flex: 1; }
+  .chip {
+    font-size: 9.5px; font-weight: 500; background: var(--white); color: var(--text);
+    padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+  }
+  .chip.accent { background: var(--accent); color: var(--white); }
+
+  .convention-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .convention-table thead th {
+    text-align: left; padding: 8px 12px; background: var(--primary); color: var(--white);
+    font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .convention-table thead th:first-child { border-radius: 5px 0 0 0; }
+  .convention-table thead th:last-child { border-radius: 0 5px 0 0; }
+  .convention-table tbody td { padding: 7px 12px; background: var(--card); border-bottom: 1px solid var(--border); }
+  .convention-table tbody tr:last-child td { border-bottom: none; }
+  .convention-table tbody tr:last-child td:first-child { border-radius: 0 0 0 5px; }
+  .convention-table tbody tr:last-child td:last-child { border-radius: 0 0 5px 0; }
+  .comp-label { font-weight: 700; color: var(--primary); }
+  .example-code { font-weight: 600; color: var(--accent); font-size: 11px; }
+
+  .example-breakdown { background: var(--card); border-radius: 6px; padding: 16px 20px; margin-top: 14px; }
+  .example-breakdown .label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 12px; }
+  .measure-anatomy { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .anatomy-part { text-align: center; }
+  .anatomy-part .token { font-size: 18px; font-weight: 700; padding: 6px 14px; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+  .anatomy-part .token.metric { background: var(--primary); color: var(--white); }
+  .anatomy-part .token.agg { background: #4A7A5B; color: var(--white); }
+  .anatomy-part .token.comp { background: var(--accent); color: var(--white); }
+  .anatomy-part .desc { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; }
+  .anatomy-part .desc.d-metric { color: var(--primary); }
+  .anatomy-part .desc.d-agg { color: #4A7A5B; }
+  .anatomy-part .desc.d-comp { color: var(--accent); }
+
+  .calc-group-card { background: var(--card); border-radius: 6px; overflow: hidden; }
+  .calc-group-header {
+    background: var(--primary); color: var(--white); padding: 9px 14px;
+    font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+  }
+  .cg-badge { background: rgba(255,255,255,0.15); padding: 2px 10px; border-radius: 3px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .calc-group-body { padding: 12px 14px; }
+  .cg-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.45; }
+  .cg-items { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .cg-item { background: var(--white); border-radius: 4px; padding: 8px 10px; }
+  .cg-item-name { font-size: 12px; font-weight: 700; color: var(--primary); display: block; }
+  .cg-item-dax { font-size: 10px; color: var(--text-muted); display: block; }
+
+  .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .principle { background: var(--white); border-radius: 4px; padding: 10px 12px; display: flex; align-items: flex-start; gap: 10px; }
+  .p-icon { width: 24px; height: 24px; border-radius: 3px; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 700; font-size: 11px; }
+  .p-text { font-size: 10.5px; font-weight: 500; line-height: 1.4; color: var(--text); }
+  .p-text strong { font-weight: 700; color: var(--primary); }
+
+  .footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 14px; margin-top: 20px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-muted); font-weight: 500; flex-shrink: 0;
+  }
+  .footer .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); display: inline-block; margin: 0 8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>Semantic Model Taxonomy</h1>
+      <span class="subtitle">Vantage Alpin BI</span>
+    </div>
+    <div class="badge">DAX Engineering</div>
+  </div>
+
+  <div class="content">
+    <!-- COL 1: Folder Taxonomy -->
+    <div>
+      <div class="section-title"><span class="num">1</span> Measure Folder Taxonomy</div>
+      <div class="folder-tree">
+        <div class="folder">
+          <div class="folder-header">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">00 — Base Measures</span>
+            <span class="folder-label">Atomic Aggregations</span>
+          </div>
+          <div class="folder-body">
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Revenue</span><div class="measure-chips"><span class="chip">Gross Revenue ACT (€)</span><span class="chip">Gross Revenue BUD (€)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Cost</span><div class="measure-chips"><span class="chip">COGS Total ACT (€)</span><span class="chip">Marketing Cost ACT (€)</span><span class="chip">Logistics Cost ACT (€)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Orders</span><div class="measure-chips"><span class="chip">Orders Total ACT (#)</span><span class="chip">Quantity Total ACT (#)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Returns</span><div class="measure-chips"><span class="chip">Returned ACT (€)</span><span class="chip">Returned ACT (%)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Profit</span><div class="measure-chips"><span class="chip">Profit ACT (€)</span><span class="chip">Profit ACT MoM %</span></div></div>
+          </div>
+        </div>
+        <div class="folder">
+          <div class="folder-header">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">01 — Time Intelligence</span>
+            <span class="folder-label">Period-to-Date</span>
+          </div>
+          <div class="folder-body">
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Revenue</span><div class="measure-chips"><span class="chip">MTD</span><span class="chip">QTD</span><span class="chip">YTD</span><span class="chip">LM</span><span class="chip">MoM (€)</span><span class="chip accent">Display variants</span></div></div>
+          </div>
+        </div>
+        <div class="folder">
+          <div class="folder-header">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">02 — Comparisons</span>
+            <span class="folder-label">Variance & Benchmarking</span>
+          </div>
+          <div class="folder-body">
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">vs Budget</span><div class="measure-chips"><span class="chip">VAR vs BUD (€)</span><span class="chip">VAR vs BUD (%)</span><span class="chip">Delta MTD / QTD / YTD</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">YoY</span><div class="measure-chips"><span class="chip">Δ% Revenue</span><span class="chip">Δ% COGS</span><span class="chip">Δ% Orders</span><span class="chip">Δ (bps) CM1</span><span class="chip">Δ (bps) CM2</span></div></div>
+          </div>
+        </div>
+        <div class="folder">
+          <div class="folder-header">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">03 — Business Performance</span>
+            <span class="folder-label">Derived P&L</span>
+          </div>
+          <div class="folder-body">
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">CM1</span><div class="measure-chips"><span class="chip">CM1 ACT (€)</span><span class="chip">CM1 Margin ACT (%)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">CM2</span><div class="measure-chips"><span class="chip">CM2 ACT (€)</span><span class="chip">CM2 Margin ACT (%)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name">Profit</span><div class="measure-chips"><span class="chip">Returned Profit Impact (€)</span></div></div>
+          </div>
+        </div>
+        <div class="folder">
+          <div class="folder-header">
+            <span class="folder-icon">📁</span>
+            <span class="folder-name">99 — Technical Framework</span>
+            <span class="folder-label">Non-Analytical</span>
+          </div>
+          <div class="folder-body">
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name" style="min-width:auto">Display</span><div class="measure-chips"><span class="chip">Auto-format (K/M/B)</span><span class="chip">YoY ▲▼</span><span class="chip">Applied Filters</span><span class="chip accent">Axis Scale (25%)</span></div></div>
+            <div class="subfolder-row"><span class="sf-icon">›</span><span class="sf-name" style="min-width:auto">Waterfall</span><div class="measure-chips"><span class="chip">Sign-flipped cost measures (×−1)</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Naming Convention + Principles -->
+    <div>
+      <div class="section-title"><span class="num">2</span> Naming Convention</div>
+      <table class="convention-table">
+        <thead><tr><th>Component</th><th>Convention</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="comp-label">Metric</td><td>Business term</td><td class="example-code">Gross Revenue · CM2 Margin · AOV</td></tr>
+          <tr><td class="comp-label">Scenario</td><td>ACT · BUD · LM</td><td class="example-code">Actual · Budget · Last Month</td></tr>
+          <tr><td class="comp-label">Aggregation</td><td>MTD · QTD · YTD</td><td class="example-code">Period-to-date variants</td></tr>
+          <tr><td class="comp-label">Comparison</td><td>Δ% · Δ (bps) · VAR vs</td><td class="example-code">Relative · Basis pts · Variance</td></tr>
+          <tr><td class="comp-label">Unit</td><td>(€) · (%) · (#)</td><td class="example-code">Currency · Ratio · Count</td></tr>
+          <tr><td class="comp-label">Suffix</td><td>Display · AF</td><td class="example-code">String-formatted · Auto-fmt</td></tr>
+        </tbody>
+      </table>
+      <div class="example-breakdown">
+        <div class="label">Example — Measure Anatomy</div>
+        <div class="measure-anatomy">
+          <div class="anatomy-part"><div class="token metric">Gross Revenue</div><div class="desc d-metric">Metric</div></div>
+          <div class="anatomy-part"><div class="token agg">MTD</div><div class="desc d-agg">Aggregation</div></div>
+          <div class="anatomy-part"><div class="token comp">Δ% YoY</div><div class="desc d-comp">Comparison</div></div>
+        </div>
+      </div>
+      <div style="margin-top: 20px;">
+        <div class="section-title"><span class="num">4</span> Design Principles</div>
+        <div class="principles">
+          <div class="principle"><div class="p-icon">L</div><div class="p-text"><strong>Layered deps</strong> — Only 00 touches fact tables. Each layer builds on prior layers.</div></div>
+          <div class="principle"><div class="p-icon">S</div><div class="p-text"><strong>Num / Display split</strong> — Typed values for logic, formatted strings for cards.</div></div>
+          <div class="principle"><div class="p-icon">W</div><div class="p-text"><strong>Waterfall convention</strong> — Cost measures pre-flipped (×−1) for rendering.</div></div>
+          <div class="principle"><div class="p-icon">D</div><div class="p-text"><strong>Single date table</strong> — synth_dim_date with DACH holidays & ISO fiscal.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: Calc Groups + Dependency -->
+    <div>
+      <div class="section-title"><span class="num">3</span> Calculation Groups</div>
+      <div class="calc-group-card">
+        <div class="calc-group-header"><span>CG — Time Intelligence</span><span class="cg-badge">Reduces Measure Bloat</span></div>
+        <div class="calc-group-body">
+          <div class="cg-desc">Applies time intelligence transformations dynamically to any base measure via a single slicer, eliminating separate MTD/QTD/YTD versions of every metric.</div>
+          <div class="cg-items">
+            <div class="cg-item"><span class="cg-item-name">Current</span><span class="cg-item-dax">SELECTEDMEASURE()</span></div>
+            <div class="cg-item"><span class="cg-item-name">MTD</span><span class="cg-item-dax">TOTALMTD( … )</span></div>
+            <div class="cg-item"><span class="cg-item-name">QTD</span><span class="cg-item-dax">TOTALQTD( … )</span></div>
+            <div class="cg-item"><span class="cg-item-name">YTD</span><span class="cg-item-dax">TOTALYTD( … )</span></div>
+            <div class="cg-item"><span class="cg-item-name">PY</span><span class="cg-item-dax">SAMEPERIODLASTYEAR(…)</span></div>
+            <div class="cg-item"><span class="cg-item-name">PY MTD</span><span class="cg-item-dax">TOTALMTD + SPLY</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-group-card" style="margin-top: 12px;">
+        <div class="calc-group-header"><span>Field Parameters</span><span class="cg-badge">Dynamic Interactivity</span></div>
+        <div class="calc-group-body">
+          <div class="cg-desc">Enable users to switch between metrics and time granularities via slicers — one layout, many perspectives.</div>
+          <div class="cg-items" style="grid-template-columns: 1fr 1fr;">
+            <div class="cg-item"><span class="cg-item-name">param_kpis</span><span class="cg-item-dax">Revenue, CM1, CM2, AOV, Orders …</span></div>
+            <div class="cg-item"><span class="cg-item-name">param_date</span><span class="cg-item-dax">Day, Week, Month, Quarter</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 20px;">
+        <div class="section-title"><span class="num">5</span> Dependency Flow</div>
+        <div style="background: var(--card); border-radius: 6px; padding: 20px 20px 16px; text-align: center;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 0;">
+            <div style="background: var(--primary); color: var(--white); padding: 12px 18px; border-radius: 5px; font-size: 12px; font-weight: 700; line-height: 1.3; text-align: center;">00<br><span style="font-weight: 400; font-size: 10px; opacity: 0.7;">Base</span></div>
+            <div style="width: 36px; height: 2px; background: var(--primary); position: relative;"><div style="position: absolute; right: -3px; top: -4px; width: 0; height: 0; border-left: 8px solid var(--primary); border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div></div>
+            <div style="background: var(--primary); color: var(--white); padding: 12px 18px; border-radius: 5px; font-size: 12px; font-weight: 700; line-height: 1.3; text-align: center;">01<br><span style="font-weight: 400; font-size: 10px; opacity: 0.7;">Time Intel</span></div>
+            <div style="width: 36px; height: 2px; background: var(--primary); position: relative;"><div style="position: absolute; right: -3px; top: -4px; width: 0; height: 0; border-left: 8px solid var(--primary); border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div></div>
+            <div style="background: var(--primary); color: var(--white); padding: 12px 18px; border-radius: 5px; font-size: 12px; font-weight: 700; line-height: 1.3; text-align: center;">02<br><span style="font-weight: 400; font-size: 10px; opacity: 0.7;">Compare</span></div>
+            <div style="width: 36px; height: 2px; background: var(--primary); position: relative;"><div style="position: absolute; right: -3px; top: -4px; width: 0; height: 0; border-left: 8px solid var(--primary); border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div></div>
+            <div style="background: var(--primary); color: var(--white); padding: 12px 18px; border-radius: 5px; font-size: 12px; font-weight: 700; line-height: 1.3; text-align: center;">03<br><span style="font-weight: 400; font-size: 10px; opacity: 0.7;">Biz Perf</span></div>
+          </div>
+          <div style="margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <div style="width: 10px; height: 10px; border-radius: 2px; background: var(--accent);"></div>
+            <span style="font-size: 10px; font-weight: 600; color: var(--text-muted);">99 — Technical Framework operates across all layers (formatting, waterfall helpers)</span>
+          </div>
+          <div style="margin-top: 10px; font-size: 10px; color: var(--text-muted); font-weight: 500;">Each layer references only measures from prior layers — never raw columns</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vantage Alpin <span class="dot"></span> Semantic Model <span class="dot"></span> _Measuretable</span>
+    <span>Star Schema · No Calculated Columns · TMDL Version Controlled</span>
+  </div>
+</div>
+</body>
+</html>
